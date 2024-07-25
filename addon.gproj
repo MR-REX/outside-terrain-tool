@@ -1,0 +1,8 @@
+GameProject {
+ ID "OutsideTerrainTool"
+ GUID "61F2B96F0D3F27D4"
+ TITLE "Outside Terrain Tool"
+ Dependencies {
+  "61F0D506562D9BC9" "58D0FB3206B6F859"
+ }
+}
