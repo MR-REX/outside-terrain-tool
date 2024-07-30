@@ -48,6 +48,41 @@ class OTT_OutsideTerrainGeneratorOptions
 		m_sLayerNameTemplate = layerNameTemplate;
 		m_sEntityNameTemplate = entityNameTemplate;
 	}
+	
+	OTT_EOutsideTerrainSize GetSize()
+	{
+		return m_eSize;
+	}
+	
+	OTT_EOutsideTerrainQuality GetQuality()
+	{
+		return m_eQuality;
+	}
+	
+	bool IsPhysicsEnabled()
+	{
+		return m_bEnablePhysics;
+	}
+	
+	EPhysicsLayerPresets GetPhysicsLayerPreset()
+	{
+		return m_ePhysicsLayerPreset;
+	}
+	
+	ResourceName GetChunksMaterial()
+	{
+		return m_ChunksMaterial;
+	}
+	
+	string GetLayerNameTemplate()
+	{
+		return m_sLayerNameTemplate;
+	}
+	
+	string GetEntityNameTemplate()
+	{
+		return m_sEntityNameTemplate;
+	}
 }
 
 #endif
