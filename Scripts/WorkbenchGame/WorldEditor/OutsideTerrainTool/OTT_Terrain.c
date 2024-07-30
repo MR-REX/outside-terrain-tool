@@ -37,7 +37,7 @@ class OTT_Terrain
 		float widthStep = m_vSize[0] / n;
 		float heightStep = m_vSize[2] / m;
 		
-		float height;
+		float x, z, height;
 		
 		for (int i = 0; i < m; i++)
 		{
@@ -45,7 +45,16 @@ class OTT_Terrain
 			
 			for (int j = 0; j < n; j++)
 			{
-				height = m_World.GetSurfaceY(widthStep * j, heightStep * i);
+				x = widthStep * j;
+				z = heightStep * i;
+				
+				if (j == n - 1)
+					x = m_vSize[0];
+				
+				if (i == m - 1)
+					z = m_vSize[2];
+				
+				height = m_World.GetSurfaceY(x, z);
 				row.Insert(height);
 			}
 			
