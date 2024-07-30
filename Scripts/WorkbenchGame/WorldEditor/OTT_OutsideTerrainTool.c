@@ -186,7 +186,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			noiseModifier.SetSeed(m_sNoiseSeed);
 		}
 		
-		OTT_OutsideTerrainGenerationResult result = generator.Process(noiseModifier);
+		OTT_OutsideTerrainGenerationResult result = generator.Execute(noiseModifier);
 		
 		if (!result)
 		{
