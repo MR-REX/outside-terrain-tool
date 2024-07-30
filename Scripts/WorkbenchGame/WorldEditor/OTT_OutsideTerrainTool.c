@@ -148,6 +148,10 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 	]
 	protected bool m_bEnableAutoLayerCleanup;
 	
+	// Internal class fields
+	
+	protected string m_sReportTemplate = "Total number of chunks: %1\nTotal number of verticles: %2";
+	
 	// Button: Generate
 	
 	[ButtonAttribute("Generate")]
@@ -170,7 +174,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		
 		if (!generator)
 		{
-			Workbench.Dialog("Failed to initialize outside terrain generator", "Failed to create an instance of generator with selected outside terrain type.");
+			Workbench.Dialog("Problem with outside terrain generator", "Failed to create an instance of generator with selected outside terrain type.");
 			return;
 		}
 		
@@ -182,13 +186,16 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			noiseModifier.SetSeed(m_sNoiseSeed);
 		}
 		
-		bool success = generator.Process(noiseModifier);
+		OTT_OutsideTerrainGenerationResult result = generator.Process(noiseModifier);
 		
-		if (!success)
+		if (!result)
 		{
 			Workbench.Dialog("Failed to generate outside terrain", "Outside terrain generator reported that outside terrain generation process was not fully completed.");
 			return;
 		}
+		
+		string report = string.Format(m_sReportTemplate, result.GetChunksCount(), result.GetVerticlesCount());
+		Workbench.Dialog("Outside terrain generated", report);
 	}
 }
 

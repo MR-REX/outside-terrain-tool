@@ -9,9 +9,9 @@ class OTT_OutsideTerrainGenerator
 		m_Options = options;
 	}
 	
-	bool Process(OTT_NoiseModifier noiseModifier = null)
+	OTT_OutsideTerrainGenerationResult Process(OTT_NoiseModifier noiseModifier = null)
 	{
-		return false;
+		return null;
 	}
 }
 
