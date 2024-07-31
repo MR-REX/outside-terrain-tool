@@ -49,6 +49,42 @@ class OTT_HeightmapHelper
 			heightmap[k] = row;
 		}
 	}
+	
+	static void Smooth(notnull array<ref array<float>> heightmap, int iterations = 1)
+	{
+		int height = heightmap.Count();
+		
+		if (height < 1)
+			return;
+		
+		int width = heightmap[0].Count();
+		
+		if (width < 1)
+			return;
+		
+		float sum;
+		
+		for (int iteration = 0; iteration < iterations; iteration++)
+		{
+			for (int i = 1; i < height - 1; i++)
+			{
+				for (int j = 1; j < width - 1; j++)
+				{
+					sum = 0;
+					
+					for (int k = -1; k <= 1; k++)
+					{
+						for (int l = -1; l <= 1; l++)
+						{
+							sum += heightmap[i + k][j + l];
+						}
+					}
+					
+					heightmap[i][j] = sum / 9;
+				}
+			}
+		}
+	}
 }
 
 #endif
