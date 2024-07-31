@@ -14,9 +14,13 @@ class OTT_OutsideTerrainGenerator
 		m_aHeightmapModifiers = modifiers;
 	}
 	
-	array<ref array<float>> GetTerrainHeightmap(int width, int height)
+	protected array<ref array<float>> GetTerrainHeightmap(int width, int height)
 	{
 		OTT_Terrain terrain = new OTT_Terrain();
+		
+		if (!terrain.IsValid())
+			return null;
+		
 		array<ref array<float>> heightmap = terrain.GetHeightmap(width, height);
 		
 		foreach (OTT_HeightmapModifier heightmapModifier : m_aHeightmapModifiers)
@@ -27,7 +31,7 @@ class OTT_OutsideTerrainGenerator
 		return heightmap;
 	}
 	
-	bool Process()
+	protected bool Process()
 	{
 		return false;
 	}
