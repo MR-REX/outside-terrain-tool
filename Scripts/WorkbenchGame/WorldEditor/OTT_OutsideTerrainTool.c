@@ -167,9 +167,20 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			entityNameTemplate: m_sEntityNameTemplate
 		);
 		
+		array<ref OTT_HeightmapModifier> heightmapModifiers = {};
+		
+		if (m_bEnableNoiseModifier)
+		{
+			OTT_NoiseModifier noiseModifier = new OTT_NoiseModifier(m_eNoiseAlgorithm);
+			noiseModifier.SetSeed(m_sNoiseSeed);
+			
+			heightmapModifiers.Insert(noiseModifier);
+		}
+		
 		OTT_OutsideTerrainGenerator generator = OTT_OutsideTerrainGeneratorFactory.Create(
 			type: m_eOutsideTerrainGeneratorType,
-			options: generatorOptions
+			options: generatorOptions,
+			modifiers: heightmapModifiers
 		);
 		
 		if (!generator)
@@ -178,15 +189,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			return;
 		}
 		
-		OTT_NoiseModifier noiseModifier;
-		
-		if (m_bEnableNoiseModifier)
-		{
-			noiseModifier = new OTT_NoiseModifier(m_eNoiseAlgorithm);
-			noiseModifier.SetSeed(m_sNoiseSeed);
-		}
-		
-		OTT_OutsideTerrainGenerationResult result = generator.Execute(noiseModifier);
+		OTT_OutsideTerrainGenerationResult result = generator.Execute();
 		
 		if (!result)
 		{

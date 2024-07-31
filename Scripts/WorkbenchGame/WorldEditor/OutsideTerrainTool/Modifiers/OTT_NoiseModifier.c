@@ -6,7 +6,7 @@ enum OTT_ENoiseAlgorithm
 	Simplex
 }
 
-class OTT_NoiseModifier
+class OTT_NoiseModifier : OTT_HeightmapModifier
 {
 	protected OTT_ENoiseAlgorithm m_eNoiseAlgorithm;
 	protected int m_iSeed;
@@ -50,7 +50,7 @@ class OTT_NoiseModifier
 		return Math.PerlinNoise01(offset + x, offset + y);
 	}
 	
-	void Modify(notnull array<ref array<float>> heightmap)
+	override void Modify(notnull array<ref array<float>> heightmap)
 	{
 		int rows = heightmap.Count();
 		

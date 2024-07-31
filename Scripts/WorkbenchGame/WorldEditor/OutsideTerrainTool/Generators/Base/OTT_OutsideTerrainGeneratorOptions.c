@@ -15,7 +15,7 @@ enum OTT_EOutsideTerrainQuality
 }
 
 class OTT_OutsideTerrainGeneratorOptions
-{
+{	
 	protected OTT_EOutsideTerrainSize m_eSize;
 	protected OTT_EOutsideTerrainQuality m_eQuality;
 	

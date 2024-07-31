@@ -3,23 +3,38 @@
 class OTT_OutsideTerrainGenerator
 {	
 	protected OTT_OutsideTerrainGeneratorOptions m_Options;
+	protected ref array<ref OTT_HeightmapModifier> m_aHeightmapModifiers;
 	
 	protected int m_iChunksCount;
 	protected int m_iVerticlesCount;
 	
-	void OTT_OutsideTerrainGenerator(notnull OTT_OutsideTerrainGeneratorOptions options)
+	void OTT_OutsideTerrainGenerator(notnull OTT_OutsideTerrainGeneratorOptions options, notnull array<ref OTT_HeightmapModifier> modifiers)
 	{
 		m_Options = options;
+		m_aHeightmapModifiers = modifiers;
 	}
 	
-	bool Process(OTT_NoiseModifier noiseModifier = null)
+	array<ref array<float>> GetTerrainHeightmap(int width, int height)
+	{
+		OTT_Terrain terrain = new OTT_Terrain();
+		array<ref array<float>> heightmap = terrain.GetHeightmap(width, height);
+		
+		foreach (OTT_HeightmapModifier heightmapModifier : m_aHeightmapModifiers)
+		{
+			heightmapModifier.Modify(heightmap);
+		}
+		
+		return heightmap;
+	}
+	
+	bool Process()
 	{
 		return false;
 	}
 	
-	OTT_OutsideTerrainGenerationResult Execute(OTT_NoiseModifier noiseModifier = null)
+	OTT_OutsideTerrainGenerationResult Execute()
 	{
-		bool success = Process(noiseModifier);
+		bool success = Process();
 		
 		if (!success)
 			return null;
