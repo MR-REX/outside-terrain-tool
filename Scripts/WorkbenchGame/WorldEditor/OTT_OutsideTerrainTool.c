@@ -145,7 +145,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 	[ButtonAttribute("Generate")]
 	void Generate()
 	{
-		// Create Outside Terrain Manager
+		// Create instance of outside terrain manager
 		
 		OTT_OutsideTerrainChunkOptions outsideTerrainChunkOptions = new OTT_OutsideTerrainChunkOptions(
 			entityNameTemplate: m_sEntityNameTemplate,
@@ -162,11 +162,11 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		
 		if (!outsideTerrainManager.IsValid())
 		{
-			Workbench.Dialog("Problem with outside terrain manager", "Failed to create an instance of outside terrain manager.");
+			Print("Failed to create instance of outside terrain manager", LogLevel.ERROR);
 			return;
 		}
 		
-		// Create Outside Terrain Generator
+		// Create instance of outside terrain generator with factory
 		
 		array<ref OTT_HeightmapModifier> heightmapModifiers = {};
 		
@@ -192,17 +192,21 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		
 		if (!generator)
 		{
-			Workbench.Dialog("Problem with outside terrain generator", "Failed to create an instance of generator with selected outside terrain type.");
+			Print("Failed to create instance of outside terrain generator", LogLevel.ERROR);
 			return;
 		}
 		
-		// Start Outside Terrain Generator
+		// Generating outside terrain with generator
 		
+		m_API.BeginEntityAction();
 		OTT_OutsideTerrainGenerationResult result = generator.Execute();
+		m_API.EndEntityAction();
+		
+		// Processing outside terrain generation results
 		
 		if (!result)
 		{
-			Workbench.Dialog("Failed to generate outside terrain", "Outside terrain generator reported that outside terrain generation process was not fully completed.");
+			Print("Failed to complete outside terrain generation", LogLevel.ERROR);
 			return;
 		}
 		
