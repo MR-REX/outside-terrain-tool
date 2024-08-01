@@ -206,8 +206,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		
 		if (m_bEnableSmoothingModifier)
 		{
-			OTT_SmoothingModifier smoothingModifier = new OTT_SmoothingModifier(m_iSmoothingIterations);
-			heightmapModifiers.Insert(smoothingModifier);
+			heightmapModifiers.Insert(new OTT_SmoothingModifier(m_iSmoothingIterations));
 		}
 		
 		OTT_OutsideTerrainGeneratorOptions generatorOptions = new OTT_OutsideTerrainGeneratorOptions(
