@@ -11,7 +11,7 @@ class OTT_OutsideTerrainManager
 	
 	void OTT_OutsideTerrainManager(WorldEditorAPI worldEditorAPI, OTT_OutsideTerrainChunkOptions chunkOptions)
 	{
-		m_WorldEditorAPI = m_WorldEditorAPI;
+		m_WorldEditorAPI = worldEditorAPI;
 		m_ChunkOptions = chunkOptions;
 		m_iLayerID = -1;
 	}
