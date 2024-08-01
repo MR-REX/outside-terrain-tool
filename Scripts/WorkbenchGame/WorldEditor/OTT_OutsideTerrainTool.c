@@ -47,12 +47,13 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		Attribute
 		(
 			category: "Physics",
-			desc: "Enable physics body creation for outside terrain chunks",
-			uiwidget: UIWidgets.CheckBox,
-			defvalue: "1"
+			desc: "A method for generating physics for outside terrain chunks",
+			uiwidget: UIWidgets.ComboBox,
+			enums: ParamEnumArray.FromEnum(OTT_EOutsideTerrainPhysicsType),
+			defvalue: OTT_EOutsideTerrainPhysicsType.Full.ToString()
 		)
 	]
-	protected bool m_bEnableOutsideTerrainPhysics;
+	protected OTT_EOutsideTerrainPhysicsType m_ePhysicsType;
 	
 	[
 		Attribute
@@ -99,6 +100,31 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		)
 	]
 	protected string m_sNoiseSeed;
+	
+	// Category: Smoothing Modifier
+	
+	[
+		Attribute
+		(
+			category: "Smoothing Modifier",
+			desc: "Enable smoothing modifier for all outside terrain heightmaps",
+			uiwidget: UIWidgets.CheckBox,
+			defvalue: "1"
+		)
+	]
+	protected bool m_bEnableSmoothingModifier;
+	
+	[
+		Attribute
+		(
+			category: "Smoothing Modifier",
+			desc: "Number of smoothing iterations",
+			uiwidget: UIWidgets.Slider,
+			params: "0 32 1",
+			defvalue: "1"
+		)
+	]
+	protected int m_iSmoothingIterations;
 	
 	// Category: Materials
 	
@@ -178,9 +204,16 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			heightmapModifiers.Insert(noiseModifier);
 		}
 		
+		if (m_bEnableSmoothingModifier)
+		{
+			OTT_SmoothingModifier smoothingModifier = new OTT_SmoothingModifier(m_iSmoothingIterations);
+			heightmapModifiers.Insert(smoothingModifier);
+		}
+		
 		OTT_OutsideTerrainGeneratorOptions generatorOptions = new OTT_OutsideTerrainGeneratorOptions(
 			size: m_eOutsideTerrainSize,
 			quality: m_eOutsideTerrainQuality,
+			physicsType: m_ePhysicsType,
 			modifiers: heightmapModifiers
 		);
 		
