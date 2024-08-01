@@ -136,18 +136,6 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 	]
 	protected string m_sEntityNameTemplate;
 	
-	// Category: Tool
-	
-	[
-		Attribute
-		(
-			category: "Tool",
-			desc: "Automatically delete an existing outside terrain layer before generating a new one",
-			defvalue: "1"
-		)
-	]
-	protected bool m_bEnableAutoLayerCleanup;
-	
 	// Internal class fields
 	
 	protected string m_sReportTemplate = "Total number of chunks: %1\nTotal number of verticles: %2\nTotal number of triangles: %3";
