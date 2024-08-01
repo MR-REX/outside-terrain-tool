@@ -1,8 +1,8 @@
 #ifdef WORKBENCH
 
 class OTT_HeightmapHelper
-{
-	static void GetHeightmapSizes(notnull array<ref array<float>> heightmap, out int width = 0, out int height = 0)
+{	
+	static void GetHeightmapSize(notnull array<ref array<float>> heightmap, out int width = 0, out int height = 0)
 	{
 		int rows = heightmap.Count();
 		
@@ -18,10 +18,28 @@ class OTT_HeightmapHelper
 		height = rows;
 	}
 	
+	static array<float> ToFlat(notnull array<ref array<float>> heightmap)
+	{
+		int width, height;
+		GetHeightmapSize(heightmap, width, height);
+		
+		array<float> heights = {};
+		
+		for (int j = 0; j < width; j++)
+		{
+			for (int i = 0; i < height; i++)
+			{
+				heights.Insert(heightmap[i][j]);
+			}
+		}
+		
+		return heights;
+	}
+	
 	static bool IsHeightmapSquare(notnull array<ref array<float>> heightmap)
 	{
 		int width, height;
-		GetHeightmapSizes(heightmap, width, height);
+		GetHeightmapSize(heightmap, width, height);
 		
 		return width == height;
 	}
