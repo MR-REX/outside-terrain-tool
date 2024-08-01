@@ -4,7 +4,7 @@ class OTT_SmoothingModifier : OTT_HeightmapModifier
 {
 	protected int m_iIterations;
 	
-	void OTT_SmoothingModifier(int iterations)
+	void OTT_SmoothingModifier(int iterations = 1)
 	{
 		m_iIterations = iterations;
 	}
