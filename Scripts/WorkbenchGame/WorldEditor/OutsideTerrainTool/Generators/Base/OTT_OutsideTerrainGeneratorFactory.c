@@ -7,7 +7,7 @@ enum OTT_EOutsideTerrainGeneratorTypes
 
 class OTT_OutsideTerrainGeneratorFactory
 {
-	static OTT_OutsideTerrainGenerator Create(OTT_EOutsideTerrainGeneratorTypes type, OTT_OutsideTerrainGeneratorOptions options, array<ref OTT_HeightmapModifier> modifiers)
+	static OTT_OutsideTerrainGenerator Create(OTT_EOutsideTerrainGeneratorTypes type, OTT_OutsideTerrainGeneratorOptions options, OTT_OutsideTerrainManager manager)
 	{
 		return null;
 	}

@@ -2,6 +2,30 @@
 
 class OTT_HeightmapHelper
 {
+	static void GetHeightmapSizes(notnull array<ref array<float>> heightmap, out int width = 0, out int height = 0)
+	{
+		int rows = heightmap.Count();
+		
+		if (rows < 2)
+			return;
+		
+		int columns = heightmap[0].Count();
+		
+		if (columns < 2)
+			return;
+		
+		width = columns;
+		height = rows;
+	}
+	
+	static bool IsHeightmapSquare(notnull array<ref array<float>> heightmap)
+	{
+		int width, height;
+		GetHeightmapSizes(heightmap, width, height);
+		
+		return width == height;
+	}
+	
 	static void FlipVertical(notnull array<ref array<float>> heightmap)
 	{
 		int height = heightmap.Count();

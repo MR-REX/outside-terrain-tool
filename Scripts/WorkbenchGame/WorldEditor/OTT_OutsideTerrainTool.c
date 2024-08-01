@@ -150,22 +150,35 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 	
 	// Internal class fields
 	
-	protected string m_sReportTemplate = "Total number of chunks: %1\nTotal number of verticles: %2";
+	protected string m_sReportTemplate = "Total number of chunks: %1\nTotal number of verticles: %2\nTotal number of triangles: %3";
 	
 	// Button: Generate
 	
 	[ButtonAttribute("Generate")]
 	void Generate()
 	{
-		OTT_OutsideTerrainGeneratorOptions generatorOptions = new OTT_OutsideTerrainGeneratorOptions(
-			size: m_eOutsideTerrainSize,
-			quality: m_eOutsideTerrainQuality,
-			enablePhysics: m_bEnableOutsideTerrainPhysics,
-			physicsLayerPreset: m_ePhysicsLayerPreset,
-			chunksMaterial: m_ChunksMaterial,
-			layerNameTemplate: m_sLayerNameTemplate,
-			entityNameTemplate: m_sEntityNameTemplate
+		// Create Outside Terrain Manager
+		
+		OTT_OutsideTerrainChunkOptions outsideTerrainChunkOptions = new OTT_OutsideTerrainChunkOptions(
+			entityNameTemplate: m_sEntityNameTemplate,
+			material: m_ChunksMaterial,
+			physicsLayerPreset: m_ePhysicsLayerPreset
 		);
+		
+		OTT_OutsideTerrainManager outsideTerrainManager = new OTT_OutsideTerrainManager(
+			worldEditorAPI: m_API,
+			chunkOptions: outsideTerrainChunkOptions
+		);
+		
+		outsideTerrainManager.Initialize(m_sLayerNameTemplate);
+		
+		if (!outsideTerrainManager.IsValid())
+		{
+			Workbench.Dialog("Problem with outside terrain manager", "Failed to create an instance of outside terrain manager.");
+			return;
+		}
+		
+		// Create Outside Terrain Generator
 		
 		array<ref OTT_HeightmapModifier> heightmapModifiers = {};
 		
@@ -177,10 +190,16 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			heightmapModifiers.Insert(noiseModifier);
 		}
 		
+		OTT_OutsideTerrainGeneratorOptions generatorOptions = new OTT_OutsideTerrainGeneratorOptions(
+			size: m_eOutsideTerrainSize,
+			quality: m_eOutsideTerrainQuality,
+			modifiers: heightmapModifiers
+		);
+		
 		OTT_OutsideTerrainGenerator generator = OTT_OutsideTerrainGeneratorFactory.Create(
 			type: m_eOutsideTerrainGeneratorType,
 			options: generatorOptions,
-			modifiers: heightmapModifiers
+			manager: outsideTerrainManager
 		);
 		
 		if (!generator)
@@ -188,6 +207,8 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			Workbench.Dialog("Problem with outside terrain generator", "Failed to create an instance of generator with selected outside terrain type.");
 			return;
 		}
+		
+		// Start Outside Terrain Generator
 		
 		OTT_OutsideTerrainGenerationResult result = generator.Execute();
 		
@@ -197,7 +218,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			return;
 		}
 		
-		string report = string.Format(m_sReportTemplate, result.GetChunksCount(), result.GetVerticlesCount());
+		string report = string.Format(m_sReportTemplate, result.GetChunksCount(), result.GetVerticlesCount(), result.GetTrianglesCount());
 		Workbench.Dialog("Outside terrain generated", report);
 	}
 }
