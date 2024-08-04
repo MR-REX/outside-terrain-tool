@@ -127,6 +127,73 @@ class OTT_HeightmapHelper
 			}
 		}
 	}
+	
+	static array<ref array<float>> Select(array<ref array<float>> heightmap, int x, int y, int width, int height)
+	{		
+		array<ref array<float>> part = {};
+		
+		for (int i = y; i < y + height; i++)
+		{
+			array<float> row = {};
+			
+			for (int j = x; j < x + width; j++)
+			{
+				row.Insert(heightmap[i][j]);
+			}
+			
+			part.Insert(row);
+		}
+		
+		return part;
+	}
+	
+	static array<ref array<float>> Resize(array<ref array<float>> heightmap, int width, int height)
+	{
+		int sourceWidth, sourceHeight;
+		GetHeightmapSize(heightmap, sourceWidth, sourceHeight);
+		
+		array<ref array<float>> resized = {};
+		int x, y;
+		
+		for (int i = 0; i < height; i++)
+		{
+			array<float> row = {};
+			
+			for (int j = 0; j < width; j++)
+			{
+				x = j % sourceWidth;
+				y = i % sourceHeight;
+				
+				row.Insert(heightmap[y][x]);
+			}
+			
+			resized.Insert(row);
+		}
+		
+		return resized;
+	}
+	
+	static void Rotate(array<ref array<float>> heightmap, int iterations = 1)
+	{
+		int size = heightmap.Count();
+		float value;
+		
+		for (int iteration = 0; iteration < iterations; iteration++)
+		{
+			for (int i = 0; i < size / 2; i++)
+			{
+				for (int j = i; j < size - i - 1; j++)
+				{
+					value = heightmap[i][j];
+					
+					heightmap[i][j] = heightmap[size - 1 - j][i];
+					heightmap[size - 1 - j][i] = heightmap[size - 1 - i][size - 1 - j];
+					heightmap[size - 1 - i][size - 1 - j] = heightmap[j][size - 1 - i];
+					heightmap[j][size - 1 - i] = value;
+				}
+			}
+		}
+	}
 }
 
 #endif
