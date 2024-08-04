@@ -53,6 +53,26 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			height: terrainHeightmapResolution
 		);
 		
+		// Joining chunks border heights on terrain heightmap
+		
+		float height;
+		
+		for (int i = 0; i < terrainHeightmapResolution; i++)
+		{
+			for (int j = chunkResolution - 1; j <= terrainHeightmapResolution - chunkResolution - 1; j += chunkResolution)
+			{
+				height = Math.Min(terrainHeightmap[i][j], terrainHeightmap[i][j + 1]);
+				
+				terrainHeightmap[i][j] = height;
+				terrainHeightmap[i][j + 1] = height;
+				
+				height = Math.Min(terrainHeightmap[j][i], terrainHeightmap[j + 1][i]);
+				
+				terrainHeightmap[j][i] = height;
+				terrainHeightmap[j + 1][i] = height;
+			}
+		}
+		
 		// Gettings terrain size
 		
 		vector terrainSize = m_vTerrainMaxs - m_vTerrainMins;
