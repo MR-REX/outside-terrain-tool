@@ -48,12 +48,6 @@ class OTT_Terrain
 				x = widthStep * j;
 				z = heightStep * i;
 				
-				if (j == n - 1)
-					x = m_vSize[0];
-				
-				if (i == m - 1)
-					z = m_vSize[2];
-				
 				height = m_World.GetSurfaceY(x, z);
 				row.Insert(height);
 			}
