@@ -5,6 +5,9 @@ class OTT_OutsideTerrainGenerator
 	protected OTT_OutsideTerrainGeneratorOptions m_Options;
 	protected OTT_OutsideTerrainManager m_Manager;
 	
+	protected vector m_vTerrainMins;
+	protected vector m_vTerrainMaxs;
+	
 	protected int m_iChunksCount;
 	protected int m_iVerticlesCount;
 	protected int m_iTriangles;
@@ -13,6 +16,13 @@ class OTT_OutsideTerrainGenerator
 	{
 		m_Options = options;
 		m_Manager = manager;
+		
+		WorldEditor worldEditor = Workbench.GetModule(WorldEditor);
+		
+		if (!worldEditor)
+			return;
+		
+		worldEditor.GetTerrainBounds(m_vTerrainMins, m_vTerrainMaxs);
 	}
 	
 	protected array<ref array<float>> GetTerrainHeightmap(int width, int height)
