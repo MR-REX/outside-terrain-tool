@@ -165,7 +165,49 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			}
 		}
 		
-		// Creating plane of chunks at west and east sides
+		// Creating plane of chunks at west side
+		
+		OTT_HeightmapHelper.Rotate(terrainHeightmap, 2);
+		
+		for (int z = 0; z < chunksCount; z++)
+		{
+			for (int x = 0; x < chunksDepth; x++)
+			{
+				i = terrainHeightmapResolution - chunkResolution * (z + 1);
+				j = terrainHeightmapResolution - chunkResolution * (x + 1);
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, j, i, chunkResolution, chunkResolution);
+				
+				position = {
+					m_vTerrainMins[0] - (chunkWidth / 2) - (chunkWidth * x),
+					m_vTerrainMins[1],
+					m_vTerrainMins[2] + (chunkHeight / 2) + (chunkHeight * z)
+				};
+				
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+			}
+		}
+		
+		// Creating plane of chunks at east side
+		
+		for (int z = 0; z < chunksCount; z++)
+		{
+			for (int x = 0; x < chunksDepth; x++)
+			{
+				i = terrainHeightmapResolution - chunkResolution * (z + 1);
+				j = chunkResolution * x;
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, j, i, chunkResolution, chunkResolution);
+				
+				position = {
+					m_vTerrainMins[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x),
+					m_vTerrainMins[1],
+					m_vTerrainMins[2] + (chunkHeight / 2) + (chunkHeight * z)
+				};
+				
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+			}
+		}
 		
 		return true;
 	}
