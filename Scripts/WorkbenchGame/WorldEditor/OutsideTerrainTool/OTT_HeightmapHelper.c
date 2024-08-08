@@ -194,6 +194,30 @@ class OTT_HeightmapHelper
 			}
 		}
 	}
+	
+	static array<ref array<float>> Blend(array<ref array<float>> sourceHeightmap, array<ref array<float>> additionalHeightmap)
+	{
+		int sourceWidth, sourceHeight;
+		GetHeightmapSize(sourceHeightmap, sourceWidth, sourceHeight);
+		
+		int additionalWidth, additionalHeight;
+		GetHeightmapSize(additionalHeightmap, additionalWidth, additionalHeight);
+		
+		int width = Math.Max(sourceWidth, additionalWidth);
+		int height = Math.Max(sourceHeight, additionalHeight);
+		
+		array<ref array<float>> heightmap = Resize(sourceHeightmap, width, height);
+		
+		for (int i = 0; i < additionalHeight; i++)
+		{
+			for (int j = 0; j < additionalWidth; j++)
+			{
+				heightmap[i][j] = (heightmap[i][j] + additionalHeightmap[i][j]) / 2;
+			}
+		}
+		
+		return heightmap;
+	}
 }
 
 #endif
