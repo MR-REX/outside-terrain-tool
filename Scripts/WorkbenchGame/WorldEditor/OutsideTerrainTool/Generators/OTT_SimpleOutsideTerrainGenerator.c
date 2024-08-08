@@ -116,28 +116,49 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Initializing temporary variables
 		
-		int x, y;
+		int i, j;
 		array<ref array<float>> chunkHeightmap;
 		
 		vector position;
 		
-		// Creating plane of chunks at north and south sides
+		// Creating plane of chunks at north side
 		
-		OTT_HeightmapHelper.Rotate(terrainHeightmap, 1);
+		OTT_HeightmapHelper.FlipHorizontal(terrainHeightmap);
 		
-		for (int i = 0; i < chunksCount; i++)
+		for (int z = 0; z < chunksDepth; z++)
 		{
-			for (int j = 0; j < chunksDepth; j++)
+			for (int x = 0; x < chunksCount; x++)
 			{
-				x = chunkResolution * j;
-				y = chunkResolution * i;
+				i = terrainHeightmapResolution - chunkResolution * (z + 1);
+				j = chunkResolution * x;
 				
-				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, x, y, chunkResolution, chunkResolution);
+				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, j, i, chunkResolution, chunkResolution);
 				
 				position = {
-					m_vTerrainMins[0] + (chunkWidth / 2) + (chunkWidth * i),
-					m_vTerrainMins[1] - 8,
-					m_vTerrainMins[2] + (chunkHeight * chunksCount) + (chunkHeight / 2) + (chunkHeight * j)
+					m_vTerrainMins[0] + (chunkWidth / 2) + (chunkWidth * x),
+					m_vTerrainMins[1],
+					m_vTerrainMins[2] + terrainSize[2] + (chunkHeight / 2) + (chunkHeight * z)
+				};
+				
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+			}
+		}
+		
+		// Creating plane of chunks at south side
+		
+		for (int z = 0; z < chunksDepth; z++)
+		{
+			for (int x = 0; x < chunksCount; x++)
+			{
+				i = chunkResolution * z;
+				j = chunkResolution * x;
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, j, i, chunkResolution, chunkResolution);
+				
+				position = {
+					m_vTerrainMins[0] + (chunkWidth / 2) + (chunkWidth * x),
+					m_vTerrainMins[1],
+					m_vTerrainMins[2] - (chunkHeight / 2) - (chunkHeight * z)
 				};
 				
 				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
@@ -145,8 +166,6 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		}
 		
 		// Creating plane of chunks at west and east sides
-		
-		
 		
 		return true;
 	}

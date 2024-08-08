@@ -39,7 +39,7 @@ class OTT_Terrain
 		
 		float x, z, height;
 		
-		for (int i = 0; i < m; i++)
+		for (int i = m - 1; i >= 0; i--)
 		{
 			array<float> row = new array<float>();
 			
