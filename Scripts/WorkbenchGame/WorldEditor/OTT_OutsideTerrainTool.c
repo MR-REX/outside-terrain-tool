@@ -12,7 +12,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			desc: "Outside terrain generation type",
 			uiwidget: UIWidgets.ComboBox,
 			enums: ParamEnumArray.FromEnum(OTT_EOutsideTerrainGeneratorTypes),
-			//defvalue: OTT_EOutsideTerrainGeneratorTypes..ToString()
+			defvalue: OTT_EOutsideTerrainGeneratorTypes.Simple.ToString()
 		)
 	]
 	protected OTT_EOutsideTerrainGeneratorTypes m_eOutsideTerrainGeneratorType;
