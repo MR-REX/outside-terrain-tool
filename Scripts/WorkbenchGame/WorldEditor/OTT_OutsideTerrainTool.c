@@ -126,6 +126,19 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 	]
 	protected int m_iSmoothingIterations;
 	
+	// Category: Transform
+	
+	[
+		Attribute
+		(
+			category: "Transform",
+			desc: "Position offset for outside terrain chunks",
+			uiwidget: UIWidgets.Coords,
+			defvalue: "0 0 0"
+		)
+	]
+	protected vector m_vChunkPositionOffset;
+	
 	// Category: Materials
 	
 	[
@@ -172,7 +185,8 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		OTT_OutsideTerrainChunkOptions outsideTerrainChunkOptions = new OTT_OutsideTerrainChunkOptions(
 			entityNameTemplate: m_sEntityNameTemplate,
 			material: m_ChunksMaterial,
-			physicsLayerPreset: m_ePhysicsLayerPreset
+			physicsLayerPreset: m_ePhysicsLayerPreset,
+			positionOffset: m_vChunkPositionOffset
 		);
 		
 		OTT_OutsideTerrainManager outsideTerrainManager = new OTT_OutsideTerrainManager(

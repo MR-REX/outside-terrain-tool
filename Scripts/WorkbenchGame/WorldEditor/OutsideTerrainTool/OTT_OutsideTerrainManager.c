@@ -47,7 +47,9 @@ class OTT_OutsideTerrainManager
 		// Create entity
 		
 		string name = string.Format(m_ChunkOptions.GetEntityNameTemplate(), id);
-		IEntitySource entitySource = m_WorldEditorAPI.CreateEntity(CHUNK_ENTITY_CLASSNAME, name, m_iLayerID, null, position, angles);
+		vector chunkPosition = position + m_ChunkOptions.GetPositionOffset();
+		
+		IEntitySource entitySource = m_WorldEditorAPI.CreateEntity(CHUNK_ENTITY_CLASSNAME, name, m_iLayerID, null, chunkPosition, angles);
 		
 		// Setup material
 		
