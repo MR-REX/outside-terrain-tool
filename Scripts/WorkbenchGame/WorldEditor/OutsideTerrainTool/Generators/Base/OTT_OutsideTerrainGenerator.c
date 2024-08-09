@@ -60,6 +60,7 @@ class OTT_OutsideTerrainGenerator
 	
 	OTT_OutsideTerrainGenerationResult Execute()
 	{
+		int startedAt = System.GetUnixTime();
 		bool success = Process();
 		
 		if (!success)
@@ -68,7 +69,8 @@ class OTT_OutsideTerrainGenerator
 		OTT_OutsideTerrainGenerationResult result = new OTT_OutsideTerrainGenerationResult(
 			chunksCount: m_iChunksCount,
 			verticlesCount: m_iVerticlesCount,
-			trianglesCount: m_iTriangles
+			trianglesCount: m_iTriangles,
+			generationDuration: System.GetUnixTime() - startedAt
 		);
 		
 		return result;

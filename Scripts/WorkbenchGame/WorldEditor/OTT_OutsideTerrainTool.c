@@ -162,10 +162,6 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 	]
 	protected string m_sEntityNameTemplate;
 	
-	// Internal class fields
-	
-	protected string m_sReportTemplate = "Total number of chunks: %1\nTotal number of verticles: %2\nTotal number of triangles: %3";
-	
 	// Button: Generate
 	
 	[ButtonAttribute("Generate")]
@@ -242,8 +238,10 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			return;
 		}
 		
-		string report = string.Format(m_sReportTemplate, result.GetChunksCount(), result.GetVerticlesCount(), result.GetTrianglesCount());
-		Workbench.Dialog("Outside terrain generated", report);
+		// Creating and displaying generation report
+		
+		OTT_OutsideTerrainGenerationReport report = new OTT_OutsideTerrainGenerationReport(result);
+		report.Display();
 	}
 }
 
