@@ -101,6 +101,18 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 	]
 	protected string m_sNoiseSeed;
 	
+	[
+		Attribute
+		(
+			category: "Noise Modifier",
+			desc: "Force multiplier for noise modifier",
+			uiwidget: UIWidgets.Slider,
+			params: "0.1 16 0.1",
+			defvalue: "1"
+		)
+	]
+	protected float m_fNoiseForce;
+	
 	// Category: Smoothing Modifier
 	
 	[
@@ -209,7 +221,9 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		if (m_bEnableNoiseModifier)
 		{
 			OTT_NoiseModifier noiseModifier = new OTT_NoiseModifier(m_eNoiseAlgorithm);
+			
 			noiseModifier.SetSeed(m_sNoiseSeed);
+			noiseModifier.SetForce(m_fNoiseForce);
 			
 			heightmapModifiers.Insert(noiseModifier);
 		}
