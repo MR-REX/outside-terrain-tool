@@ -114,16 +114,22 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		vector chunkSize = {chunkWidth, 0, chunkHeight};
 		
+		// Horizontal flipping terrain heightmap for z-axis planes
+		
+		OTT_HeightmapHelper.FlipHorizontal(terrainHeightmap);
+		
+		// Creating copy of terrain heightmap for angular planes
+		
+		array<ref array<float>> cachedHeightmap = OTT_HeightmapHelper.Resize(terrainHeightmap, terrainHeightmapResolution, terrainHeightmapResolution);
+		
 		// Initializing temporary variables
 		
-		int i, j;
-		array<ref array<float>> chunkHeightmap;
+		array<ref array<float>> chunkHeightmap, angularHeightmap;
 		
+		int i, j;
 		vector position;
 		
 		// Creating plane of chunks at north side
-		
-		OTT_HeightmapHelper.FlipHorizontal(terrainHeightmap);
 		
 		for (int z = 0; z < chunksDepth; z++)
 		{
@@ -203,6 +209,92 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					m_vTerrainMins[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x),
 					m_vTerrainMins[1],
 					m_vTerrainMins[2] + (chunkHeight / 2) + (chunkHeight * z)
+				};
+				
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+			}
+		}
+		
+		// Creating plane of chunks at north-west side
+		
+		OTT_HeightmapHelper.FlipVertical(cachedHeightmap);
+		
+		for (int z = 0; z < chunksDepth; z++)
+		{
+			for (int x = 0; x < chunksDepth; x++)
+			{
+				i = terrainHeightmapResolution - chunkResolution * (z + 1);
+				j = (chunkResolution * (chunksCount - chunksDepth)) + (chunkResolution * x);
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(cachedHeightmap, j, i, chunkResolution, chunkResolution);
+				
+				position = {
+					m_vTerrainMins[0] - ((chunksDepth - 1) * chunkWidth) - (chunkWidth / 2) + (chunkWidth * x),
+					m_vTerrainMins[1],
+					m_vTerrainMins[2] + terrainSize[2] + (chunkHeight / 2) + (chunkHeight * z)
+				};
+				
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+			}
+		}
+		
+		// Creating plane of chunks at north-east side
+		
+		for (int z = 0; z < chunksDepth; z++)
+		{
+			for (int x = 0; x < chunksDepth; x++)
+			{
+				i = terrainHeightmapResolution - chunkResolution * (z + 1);
+				j = chunkResolution * x;
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(cachedHeightmap, j, i, chunkResolution, chunkResolution);
+				
+				position = {
+					m_vTerrainMins[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x),
+					m_vTerrainMins[1],
+					m_vTerrainMins[2] + terrainSize[2] + (chunkHeight / 2) + (chunkHeight * z)
+				};
+				
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+			}
+		}
+		
+		// Creating plane of chunks at south-west side
+		
+		for (int z = 0; z < chunksDepth; z++)
+		{
+			for (int x = 0; x < chunksDepth; x++)
+			{
+				i = chunkResolution * z;
+				j = terrainHeightmapResolution - chunkResolution * (x + 1);
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(cachedHeightmap, j, i, chunkResolution, chunkResolution);
+				
+				position = {
+					m_vTerrainMins[0] - (chunkWidth / 2) - (chunkWidth * x),
+					m_vTerrainMins[1],
+					m_vTerrainMins[2] - (chunkHeight / 2) - (chunkHeight * z)
+				};
+				
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+			}
+		}
+		
+		// Creating plane of chunks at south-east side
+		
+		for (int z = 0; z < chunksDepth; z++)
+		{
+			for (int x = 0; x < chunksDepth; x++)
+			{
+				i = chunkResolution * z;
+				j = chunkResolution * x;
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(cachedHeightmap, j, i, chunkResolution, chunkResolution);
+				
+				position = {
+					m_vTerrainMins[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x),
+					m_vTerrainMins[1],
+					m_vTerrainMins[2] - (chunkHeight / 2) - (chunkHeight * z)
 				};
 				
 				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
