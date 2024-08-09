@@ -61,7 +61,7 @@ class OTT_HeightmapHelper
 		
 		for (int i = 0; i < height; i++)
 		{
-			for (int j = 0; j < width; j++)
+			for (int j = 0; j < width / 2; j++)
 			{
 				k = (width - 1) - j;
 				value = heightmap[i][j];
@@ -82,7 +82,7 @@ class OTT_HeightmapHelper
 		int k;
 		array<float> row;
 		
-		for (int i = 0; i < height * 0.5; i++)
+		for (int i = 0; i < height / 2; i++)
 		{
 			k = (height - 1) - i;
 			row = heightmap[i];
