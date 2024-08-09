@@ -124,7 +124,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Initializing temporary variables
 		
-		array<ref array<float>> chunkHeightmap, angularHeightmap;
+		array<ref array<float>> chunkHeightmap;
 		
 		int i, j;
 		vector position;
