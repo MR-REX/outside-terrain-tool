@@ -8,12 +8,15 @@ class OTT_OutsideTerrainManager
 	protected OTT_OutsideTerrainChunkOptions m_ChunkOptions;
 	
 	protected int m_iLayerID;
+	protected string m_sChunksPrefix;
 	
 	void OTT_OutsideTerrainManager(WorldEditorAPI worldEditorAPI, OTT_OutsideTerrainChunkOptions chunkOptions)
 	{
 		m_WorldEditorAPI = worldEditorAPI;
 		m_ChunkOptions = chunkOptions;
+		
 		m_iLayerID = -1;
+		m_sChunksPrefix = "";
 	}
 	
 	// I don't know how to delete entity layer with all entities on it, sorry :c
@@ -36,6 +39,11 @@ class OTT_OutsideTerrainManager
 		return m_iLayerID != -1;
 	}
 	
+	void SetChunksPrefix(string chunksPrefix)
+	{
+		m_sChunksPrefix = chunksPrefix;
+	}
+	
 	IEntitySource CreateChunk(int id, vector position, vector angles, vector size, notnull array<ref array<float>> heightmap, bool enablePhysics)
 	{
 		if (!OTT_HeightmapHelper.IsHeightmapSquare(heightmap))
@@ -46,7 +54,7 @@ class OTT_OutsideTerrainManager
 		
 		// Create entity
 		
-		string name = string.Format(m_ChunkOptions.GetEntityNameTemplate(), id);
+		string name = string.Format(m_ChunkOptions.GetEntityNameTemplate(), m_sChunksPrefix, id);
 		vector chunkPosition = position + m_ChunkOptions.GetPositionOffset();
 		
 		IEntitySource entitySource = m_WorldEditorAPI.CreateEntity(CHUNK_ENTITY_CLASSNAME, name, m_iLayerID, null, chunkPosition, angles);

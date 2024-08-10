@@ -167,6 +167,8 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Creating plane of chunks at north side
 		
+		m_Manager.SetChunksPrefix("North");
+		
 		for (int z = 0; z < chunksDepth; z++)
 		{
 			for (int x = 0; x < chunksCount; x++)
@@ -188,6 +190,8 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		}
 		
 		// Creating plane of chunks at south side
+		
+		m_Manager.SetChunksPrefix("South");
 		
 		for (int z = 0; z < chunksDepth; z++)
 		{
@@ -211,6 +215,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Creating plane of chunks at west side
 		
+		m_Manager.SetChunksPrefix("West");
 		OTT_HeightmapHelper.Rotate(terrainHeightmap, 2);
 		
 		for (int z = 0; z < chunksCount; z++)
@@ -235,6 +240,8 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Creating plane of chunks at east side
 		
+		m_Manager.SetChunksPrefix("East");
+		
 		for (int z = 0; z < chunksCount; z++)
 		{
 			for (int x = 0; x < chunksDepth; x++)
@@ -257,6 +264,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Creating plane of chunks at north-west side
 		
+		m_Manager.SetChunksPrefix("NorthWest");
 		OTT_HeightmapHelper.FlipVertical(cachedHeightmap);
 		
 		for (int z = 0; z < chunksDepth; z++)
@@ -281,6 +289,8 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Creating plane of chunks at north-east side
 		
+		m_Manager.SetChunksPrefix("NorthEast");
+		
 		for (int z = 0; z < chunksDepth; z++)
 		{
 			for (int x = 0; x < chunksDepth; x++)
@@ -303,6 +313,8 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Creating plane of chunks at south-west side
 		
+		m_Manager.SetChunksPrefix("SouthWest");
+		
 		for (int z = 0; z < chunksDepth; z++)
 		{
 			for (int x = 0; x < chunksDepth; x++)
@@ -324,6 +336,8 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		}
 		
 		// Creating plane of chunks at south-east side
+		
+		m_Manager.SetChunksPrefix("SouthEast");
 		
 		for (int z = 0; z < chunksDepth; z++)
 		{

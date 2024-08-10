@@ -182,7 +182,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		(
 			category: "Layer",
 			desc: "Template for name of outside terrain chunk entity",
-			defvalue: "OutsideTerrainChunk_%1"
+			defvalue: "OutsideTerrainChunk_%1_%2"
 		)
 	]
 	protected string m_sEntityNameTemplate;
