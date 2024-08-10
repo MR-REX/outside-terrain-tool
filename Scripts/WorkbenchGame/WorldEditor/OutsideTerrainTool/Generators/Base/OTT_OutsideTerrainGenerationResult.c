@@ -3,15 +3,15 @@
 class OTT_OutsideTerrainGenerationResult
 {
 	protected int m_iChunksCount;
-	protected int m_iVerticlesCount;
+	protected int m_iVerticesCount;
 	protected int m_iTrianglesCount;
 	
 	protected int m_iGenerationDuration
 	
-	void OTT_OutsideTerrainGenerationResult(int chunksCount, int verticlesCount, int trianglesCount, int generationDuration)
+	void OTT_OutsideTerrainGenerationResult(int chunksCount, int verticesCount, int trianglesCount, int generationDuration)
 	{
 		m_iChunksCount = chunksCount;
-		m_iVerticlesCount = verticlesCount;
+		m_iVerticesCount = verticesCount;
 		m_iTrianglesCount = trianglesCount;
 		m_iGenerationDuration = generationDuration;
 	}
@@ -21,9 +21,9 @@ class OTT_OutsideTerrainGenerationResult
 		return m_iChunksCount;
 	}
 	
-	int GetVerticlesCount()
+	int GetVerticesCount()
 	{
-		return m_iVerticlesCount;
+		return m_iVerticesCount;
 	}
 	
 	int GetTrianglesCount()

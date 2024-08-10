@@ -15,7 +15,7 @@ class OTT_OutsideTerrainGenerationReport
 			"Outside terrain successfully generated.",
 			"",
 			"Number of chunks: %1",
-			"Number of verticles: %2",
+			"Number of vertices: %2",
 			"Number of triangles: %3",
 			"",
 			"Duration of process: %4"
@@ -24,7 +24,7 @@ class OTT_OutsideTerrainGenerationReport
 		return string.Format(
 			SCR_StringHelper.Join("\n", lines),
 			m_generationResult.GetChunksCount(),
-			m_generationResult.GetVerticlesCount(),
+			m_generationResult.GetVerticesCount(),
 			m_generationResult.GetTrianglesCount(),
 			SCR_FormatHelper.FormatTime(m_generationResult.GetGenerationDuration())
 		);

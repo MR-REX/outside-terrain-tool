@@ -8,7 +8,7 @@ class OTT_OutsideTerrainGenerator
 	protected ref OTT_Terrain m_Terrain;
 	
 	protected int m_iChunksCount;
-	protected int m_iVerticlesCount;
+	protected int m_iVerticesCount;
 	protected int m_iTriangles;
 	
 	void OTT_OutsideTerrainGenerator(notnull OTT_OutsideTerrainGeneratorOptions options, notnull OTT_OutsideTerrainManager manager)
@@ -36,7 +36,7 @@ class OTT_OutsideTerrainGenerator
 		int heightmapSize = heightmap.Count();
 		
 		m_iChunksCount += 1;
-		m_iVerticlesCount += heightmapSize * heightmapSize;
+		m_iVerticesCount += heightmapSize * heightmapSize;
 		m_iTriangles += (heightmapSize - 1) * (heightmapSize - 1) * 2;
 		
 		m_Manager.CreateChunk(m_iChunksCount, position, angles, size, heightmap, enablePhysics);
@@ -57,7 +57,7 @@ class OTT_OutsideTerrainGenerator
 		
 		OTT_OutsideTerrainGenerationResult result = new OTT_OutsideTerrainGenerationResult(
 			chunksCount: m_iChunksCount,
-			verticlesCount: m_iVerticlesCount,
+			verticesCount: m_iVerticesCount,
 			trianglesCount: m_iTriangles,
 			generationDuration: System.GetUnixTime() - startedAt
 		);
