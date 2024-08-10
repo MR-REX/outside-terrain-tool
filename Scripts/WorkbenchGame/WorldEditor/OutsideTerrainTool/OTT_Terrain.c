@@ -57,6 +57,11 @@ class OTT_Terrain
 		return m_World.IsOcean();
 	}
 	
+	float GetOceanBaseHeight()
+	{
+		return m_World.GetOceanBaseHeight();
+	}
+	
 	float GetOceanHeight(float x, float z)
 	{
 		return m_World.GetOceanHeight(x, z);
