@@ -3,6 +3,9 @@
 class OTT_Terrain
 {
 	protected BaseWorld m_World;
+	
+	protected vector m_vMins;
+	protected vector m_vMaxs;
 	protected vector m_vSize;
 	
 	void OTT_Terrain()
@@ -17,17 +20,51 @@ class OTT_Terrain
 		if (!worldEditorApi)
 			return;
 		
-		m_World = worldEditorApi.GetWorld();
+		worldEditor.GetTerrainBounds(m_vMins, m_vMaxs);
 		
-		vector mins, maxs;
-		worldEditor.GetTerrainBounds(mins, maxs);
-		
-		m_vSize = maxs - mins;
+		m_World = worldEditorApi.GetWorld();	
+		m_vSize = m_vMaxs - m_vMins;
 	}
 	
 	bool IsValid()
 	{
 		return (m_World != null) && (m_vSize.Length() > 0);
+	}
+	
+	vector GetMins()
+	{
+		return m_vMins;
+	}
+	
+	vector GetMaxs()
+	{
+		return m_vMaxs;
+	}
+	
+	void GetBounds(out vector mins, out vector maxs)
+	{
+		mins = m_vMins;
+		maxs = m_vMaxs;
+	}
+	
+	vector GetSize()
+	{
+		return m_vSize;
+	}
+	
+	bool HasOcean()
+	{
+		return m_World.IsOcean();
+	}
+	
+	float GetOceanHeight(float x, float z)
+	{
+		return m_World.GetOceanHeight(x, z);
+	}
+	
+	float GetSurfaceHeight(float x, float z)
+	{
+		return m_World.GetSurfaceY(x, z);
 	}
 	
 	array<ref array<float>> GetHeightmap(int m, int n)

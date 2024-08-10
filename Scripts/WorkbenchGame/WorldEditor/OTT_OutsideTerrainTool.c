@@ -149,7 +149,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			defvalue: "0 0 0"
 		)
 	]
-	protected vector m_vChunkPositionOffset;
+	protected vector m_vChunksPositionOffset;
 	
 	// Category: Materials
 	
@@ -187,6 +187,107 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 	]
 	protected string m_sEntityNameTemplate;
 	
+	// Category: Context
+	
+	[
+		Attribute
+		(
+			category: "Context",
+			desc: "Take into account shores facing the ocean",
+			uiwidget: UIWidgets.CheckBox,
+			defvalue: "1"
+		)
+	]
+	protected bool m_bUseOceanLevel;
+	
+	[
+		Attribute
+		(
+			category: "Context",
+			desc: "Allows to ignore the North side of the map when generating outside terrain",
+			uiwidget: UIWidgets.CheckBox,
+			defvalue: "0"
+		)
+	]
+	protected bool m_bIgnoreNorth;
+	
+	[
+		Attribute
+		(
+			category: "Context",
+			desc: "Allows to ignore the East side of the map when generating outside terrain",
+			uiwidget: UIWidgets.CheckBox,
+			defvalue: "0"
+		)
+	]
+	protected bool m_bIgnoreEast;
+	
+	[
+		Attribute
+		(
+			category: "Context",
+			desc: "Allows to ignore the South side of the map when generating outside terrain",
+			uiwidget: UIWidgets.CheckBox,
+			defvalue: "0"
+		)
+	]
+	protected bool m_bIgnoreSouth;
+	
+	[
+		Attribute
+		(
+			category: "Context",
+			desc: "Allows to ignore the West side of the map when generating outside terrain",
+			uiwidget: UIWidgets.CheckBox,
+			defvalue: "0"
+		)
+	]
+	protected bool m_bIgnoreWest;
+	
+	[
+		Attribute
+		(
+			category: "Context",
+			desc: "Allows to ignore the North-West side of the map when generating outside terrain",
+			uiwidget: UIWidgets.CheckBox,
+			defvalue: "0"
+		)
+	]
+	protected bool m_bIgnoreNorthWest;
+	
+	[
+		Attribute
+		(
+			category: "Context",
+			desc: "Allows to ignore the North-East side of the map when generating outside terrain",
+			uiwidget: UIWidgets.CheckBox,
+			defvalue: "0"
+		)
+	]
+	protected bool m_bIgnoreNorthEast;
+	
+	[
+		Attribute
+		(
+			category: "Context",
+			desc: "Allows to ignore the South-East side of the map when generating outside terrain",
+			uiwidget: UIWidgets.CheckBox,
+			defvalue: "0"
+		)
+	]
+	protected bool m_bIgnoreSouthEast;
+	
+	[
+		Attribute
+		(
+			category: "Context",
+			desc: "Allows to ignore the South-West side of the map when generating outside terrain",
+			uiwidget: UIWidgets.CheckBox,
+			defvalue: "0"
+		)
+	]
+	protected bool m_bIgnoreSouthWest;
+	
 	// Button: Generate
 	
 	[ButtonAttribute("Generate")]
@@ -198,7 +299,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			entityNameTemplate: m_sEntityNameTemplate,
 			material: m_ChunksMaterial,
 			physicsLayerPreset: m_ePhysicsLayerPreset,
-			positionOffset: m_vChunkPositionOffset
+			positionOffset: m_vChunksPositionOffset
 		);
 		
 		OTT_OutsideTerrainManager outsideTerrainManager = new OTT_OutsideTerrainManager(
@@ -233,11 +334,29 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			heightmapModifiers.Insert(new OTT_SmoothingModifier(m_iSmoothingIterations));
 		}
 		
+		array<OTT_CardinalDirections> ignoreDirections = {};
+		
+		if (m_bIgnoreNorth) ignoreDirections.Insert(OTT_CardinalDirections.North);
+		if (m_bIgnoreEast ) ignoreDirections.Insert(OTT_CardinalDirections.East);
+		if (m_bIgnoreSouth) ignoreDirections.Insert(OTT_CardinalDirections.South);
+		if (m_bIgnoreWest ) ignoreDirections.Insert(OTT_CardinalDirections.West);
+		
+		if (m_bIgnoreNorthWest) ignoreDirections.Insert(OTT_CardinalDirections.NorthWest);
+		if (m_bIgnoreNorthEast) ignoreDirections.Insert(OTT_CardinalDirections.NorthEast);
+		if (m_bIgnoreSouthEast) ignoreDirections.Insert(OTT_CardinalDirections.SouthEast);
+		if (m_bIgnoreSouthWest) ignoreDirections.Insert(OTT_CardinalDirections.SouthWest);
+		
+		OTT_OutsideTerrainContextOptions contextOptions = new OTT_OutsideTerrainContextOptions(
+			trackOceanLevel: m_bUseOceanLevel,
+			ignoreDirections: ignoreDirections
+		);
+		
 		OTT_OutsideTerrainGeneratorOptions generatorOptions = new OTT_OutsideTerrainGeneratorOptions(
 			size: m_eOutsideTerrainSize,
 			quality: m_eOutsideTerrainQuality,
 			physicsType: m_ePhysicsType,
-			modifiers: heightmapModifiers
+			modifiers: heightmapModifiers,
+			contextOptions: contextOptions
 		);
 		
 		OTT_OutsideTerrainGenerator generator = OTT_OutsideTerrainGeneratorFactory.Create(
