@@ -2,23 +2,28 @@
 
 enum OTT_EOutsideTerrainSize
 {
-	Minimal,
-	Normal,
-	Maximum
+	Maximum,
+	Large,
+	Medium,
+	Small
 }
 
 enum OTT_EOutsideTerrainQuality
 {
-	Low,
+	Highest,
+	High,
 	Medium,
-	High
+	Low,
+	Lowest
 }
 
 enum OTT_EOutsideTerrainPhysicsType
 {
-	Disabled,
+	Full,
+	Huge,
 	Partial,
-	Full
+	Small,
+	Disabled
 }
 
 class OTT_OutsideTerrainGeneratorOptions

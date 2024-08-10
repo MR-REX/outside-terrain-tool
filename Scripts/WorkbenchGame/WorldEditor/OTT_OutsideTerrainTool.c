@@ -24,7 +24,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			desc: "Size of outside terrain",
 			uiwidget: UIWidgets.ComboBox,
 			enums: ParamEnumArray.FromEnum(OTT_EOutsideTerrainSize),
-			defvalue: OTT_EOutsideTerrainSize.Normal.ToString()
+			defvalue: OTT_EOutsideTerrainSize.Medium.ToString()
 		)
 	]
 	protected OTT_EOutsideTerrainSize m_eOutsideTerrainSize;
@@ -36,7 +36,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			desc: "Quality of outside terrain",
 			uiwidget: UIWidgets.ComboBox,
 			enums: ParamEnumArray.FromEnum(OTT_EOutsideTerrainQuality),
-			defvalue: OTT_EOutsideTerrainQuality.High.ToString()
+			defvalue: OTT_EOutsideTerrainQuality.Highest.ToString()
 		)
 	]
 	protected OTT_EOutsideTerrainQuality m_eOutsideTerrainQuality;

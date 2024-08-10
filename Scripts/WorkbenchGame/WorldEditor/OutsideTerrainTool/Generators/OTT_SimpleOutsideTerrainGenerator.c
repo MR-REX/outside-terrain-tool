@@ -8,12 +8,16 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		switch (quality)
 		{
-			case OTT_EOutsideTerrainQuality.High:
+			case OTT_EOutsideTerrainQuality.Highest:
 				return 32;
-			case OTT_EOutsideTerrainQuality.Medium:
+			case OTT_EOutsideTerrainQuality.High:
 				return 24;
-			case OTT_EOutsideTerrainQuality.Low:
+			case OTT_EOutsideTerrainQuality.Medium:
 				return 16;
+			case OTT_EOutsideTerrainQuality.Low:
+				return 8;
+			case OTT_EOutsideTerrainQuality.Lowest:
+				return 4;
 		}
 		
 		return 0;
@@ -25,12 +29,16 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		switch (quality)
 		{
-			case OTT_EOutsideTerrainQuality.High:
+			case OTT_EOutsideTerrainQuality.Highest:
 				return 32;
-			case OTT_EOutsideTerrainQuality.Medium:
+			case OTT_EOutsideTerrainQuality.High:
 				return 24;
-			case OTT_EOutsideTerrainQuality.Low:
+			case OTT_EOutsideTerrainQuality.Medium:
 				return 16;
+			case OTT_EOutsideTerrainQuality.Low:
+				return 8;
+			case OTT_EOutsideTerrainQuality.Lowest:
+				return 4;
 		}
 		
 		return 0;
@@ -44,9 +52,30 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		{
 			case OTT_EOutsideTerrainSize.Maximum:
 				return 1;
-			case OTT_EOutsideTerrainSize.Normal:
+			case OTT_EOutsideTerrainSize.Large:
+				return 0.75;
+			case OTT_EOutsideTerrainSize.Medium:
 				return 0.5;
-			case OTT_EOutsideTerrainSize.Minimal:
+			case OTT_EOutsideTerrainSize.Small:
+				return 0.25;
+		}
+		
+		return 0;
+	}
+	
+	protected float GetChunkPhysicsDepthMultiplier()
+	{
+		OTT_EOutsideTerrainPhysicsType physicsType = m_Options.GetPhysicsType();
+		
+		switch (physicsType)
+		{
+			case OTT_EOutsideTerrainPhysicsType.Full:
+				return 1;
+			case OTT_EOutsideTerrainPhysicsType.Huge:
+				return 0.75;
+			case OTT_EOutsideTerrainPhysicsType.Partial:
+				return 0.5;
+			case OTT_EOutsideTerrainPhysicsType.Small:
 				return 0.25;
 		}
 		
@@ -82,6 +111,11 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		if (chunksDepth == 0 || chunksDepth > chunksCount)
 			return false;
+		
+		// Getting depth of chunks with physics
+		
+		float chunkPhysicsDepthMultiplier = GetChunkPhysicsDepthMultiplier();
+		int chunkPhysicsDepth = Math.Ceil(chunksDepth * chunkPhysicsDepthMultiplier);
 		
 		// Joining chunks border heights on terrain heightmap
 		
@@ -127,7 +161,9 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		array<ref array<float>> chunkHeightmap;
 		
 		int i, j;
+		
 		vector position;
+		bool enablePhysics;
 		
 		// Creating plane of chunks at north side
 		
@@ -139,6 +175,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				j = chunkResolution * x;
 				
 				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, j, i, chunkResolution, chunkResolution);
+				enablePhysics = z < chunkPhysicsDepth;
 				
 				position = {
 					m_vTerrainMins[0] + (chunkWidth / 2) + (chunkWidth * x),
@@ -146,7 +183,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					m_vTerrainMins[2] + terrainSize[2] + (chunkHeight / 2) + (chunkHeight * z)
 				};
 				
-				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 			}
 		}
 		
@@ -160,6 +197,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				j = chunkResolution * x;
 				
 				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, j, i, chunkResolution, chunkResolution);
+				enablePhysics = z < chunkPhysicsDepth;
 				
 				position = {
 					m_vTerrainMins[0] + (chunkWidth / 2) + (chunkWidth * x),
@@ -167,7 +205,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					m_vTerrainMins[2] - (chunkHeight / 2) - (chunkHeight * z)
 				};
 				
-				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 			}
 		}
 		
@@ -183,6 +221,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				j = terrainHeightmapResolution - chunkResolution * (x + 1);
 				
 				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, j, i, chunkResolution, chunkResolution);
+				enablePhysics = x < chunkPhysicsDepth;
 				
 				position = {
 					m_vTerrainMins[0] - (chunkWidth / 2) - (chunkWidth * x),
@@ -190,7 +229,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					m_vTerrainMins[2] + (chunkHeight / 2) + (chunkHeight * z)
 				};
 				
-				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 			}
 		}
 		
@@ -204,6 +243,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				j = chunkResolution * x;
 				
 				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, j, i, chunkResolution, chunkResolution);
+				enablePhysics = x < chunkPhysicsDepth;
 				
 				position = {
 					m_vTerrainMins[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x),
@@ -211,7 +251,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					m_vTerrainMins[2] + (chunkHeight / 2) + (chunkHeight * z)
 				};
 				
-				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 			}
 		}
 		
@@ -227,6 +267,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				j = (chunkResolution * (chunksCount - chunksDepth)) + (chunkResolution * x);
 				
 				chunkHeightmap = OTT_HeightmapHelper.Select(cachedHeightmap, j, i, chunkResolution, chunkResolution);
+				enablePhysics = x >= (chunksDepth - chunkPhysicsDepth) && z < chunkPhysicsDepth;
 				
 				position = {
 					m_vTerrainMins[0] - ((chunksDepth - 1) * chunkWidth) - (chunkWidth / 2) + (chunkWidth * x),
@@ -234,7 +275,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					m_vTerrainMins[2] + terrainSize[2] + (chunkHeight / 2) + (chunkHeight * z)
 				};
 				
-				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 			}
 		}
 		
@@ -248,6 +289,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				j = chunkResolution * x;
 				
 				chunkHeightmap = OTT_HeightmapHelper.Select(cachedHeightmap, j, i, chunkResolution, chunkResolution);
+				enablePhysics = x < chunkPhysicsDepth && z < chunkPhysicsDepth;
 				
 				position = {
 					m_vTerrainMins[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x),
@@ -255,7 +297,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					m_vTerrainMins[2] + terrainSize[2] + (chunkHeight / 2) + (chunkHeight * z)
 				};
 				
-				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 			}
 		}
 		
@@ -269,6 +311,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				j = terrainHeightmapResolution - chunkResolution * (x + 1);
 				
 				chunkHeightmap = OTT_HeightmapHelper.Select(cachedHeightmap, j, i, chunkResolution, chunkResolution);
+				enablePhysics = x < chunkPhysicsDepth && z < chunkPhysicsDepth;
 				
 				position = {
 					m_vTerrainMins[0] - (chunkWidth / 2) - (chunkWidth * x),
@@ -276,7 +319,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					m_vTerrainMins[2] - (chunkHeight / 2) - (chunkHeight * z)
 				};
 				
-				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 			}
 		}
 		
@@ -290,6 +333,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				j = chunkResolution * x;
 				
 				chunkHeightmap = OTT_HeightmapHelper.Select(cachedHeightmap, j, i, chunkResolution, chunkResolution);
+				enablePhysics = x < chunkPhysicsDepth && z < chunkPhysicsDepth;
 				
 				position = {
 					m_vTerrainMins[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x),
@@ -297,7 +341,7 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					m_vTerrainMins[2] - (chunkHeight / 2) - (chunkHeight * z)
 				};
 				
-				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, true);
+				CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 			}
 		}
 		
