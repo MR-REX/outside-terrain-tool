@@ -27,7 +27,7 @@ class OTT_OutsideTerrainManager
 		
 		if (layerId != -1)
 		{
-			Workbench.Dialog("Entity layer already exists", "Before starting the outside terrain generation, make sure that entity layer with the specified name doesn't exists.");
+			Workbench.Dialog("Layer already exists", "Before starting the outside terrain generation, make sure that entity layer with the specified name doesn't exists.");
 			return;
 		}
 		
