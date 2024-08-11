@@ -21,7 +21,7 @@ class OTT_OutsideTerrainGenerator
 	
 	protected array<ref array<float>> GetTerrainHeightmap(int width, int height)
 	{
-		array<ref array<float>> heightmap = m_Terrain.GetHeightmap(width, height);
+		array<ref array<float>> heightmap = m_Terrain.GetHeightmap(height, width);
 		
 		foreach (OTT_HeightmapModifier heightmapModifier : m_Options.GetHeightmapModifiers())
 		{
