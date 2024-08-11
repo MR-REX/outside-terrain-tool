@@ -75,7 +75,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			category: "Noise Modifier",
 			desc: "Enable noise modifier for all outside terrain heightmaps",
 			uiwidget: UIWidgets.CheckBox,
-			defvalue: "1"
+			defvalue: "0"
 		)
 	]
 	protected bool m_bEnableNoiseModifier;
@@ -121,7 +121,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			category: "Smoothing Modifier",
 			desc: "Enable smoothing modifier for all outside terrain heightmaps",
 			uiwidget: UIWidgets.CheckBox,
-			defvalue: "1"
+			defvalue: "0"
 		)
 	]
 	protected bool m_bEnableSmoothingModifier;
