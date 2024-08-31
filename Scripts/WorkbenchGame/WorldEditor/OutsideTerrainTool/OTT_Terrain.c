@@ -87,8 +87,8 @@ class OTT_Terrain
 			
 			for (int j = 0; j < n; j++)
 			{
-				x = widthStep * j;
-				z = heightStep * i;
+				x = Math.Clamp(widthStep * j, 0.1, m_vSize[0] - 0.1);
+				z = Math.Clamp(heightStep * i, 0.1, m_vSize[2] - 0.1);
 				
 				height = m_World.GetSurfaceY(x, z);
 				row.Insert(height);

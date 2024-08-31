@@ -35,7 +35,18 @@ class OTT_OutsideTerrainGeneratorOptions
 	protected ref array<ref OTT_HeightmapModifier> m_aHeightmapModifiers;
 	protected OTT_OutsideTerrainContextOptions m_contextOptions;
 	
-	void OTT_OutsideTerrainGeneratorOptions(OTT_EOutsideTerrainSize size, OTT_EOutsideTerrainQuality quality, OTT_EOutsideTerrainPhysicsType physicsType, notnull array<ref OTT_HeightmapModifier> modifiers, OTT_OutsideTerrainContextOptions contextOptions)
+	protected float m_fDepthOffset;
+	protected float m_fBorderHeightMultiplier;
+	
+	void OTT_OutsideTerrainGeneratorOptions(
+		OTT_EOutsideTerrainSize size,
+		OTT_EOutsideTerrainQuality quality,
+		OTT_EOutsideTerrainPhysicsType physicsType,
+		notnull array<ref OTT_HeightmapModifier> modifiers,
+		OTT_OutsideTerrainContextOptions contextOptions,
+		float depthOffset,
+		float borderHeightMultiplier
+	)
 	{
 		m_eSize = size;
 		m_eQuality = quality;
@@ -43,6 +54,9 @@ class OTT_OutsideTerrainGeneratorOptions
 		
 		m_aHeightmapModifiers = modifiers;
 		m_contextOptions = contextOptions;
+		
+		m_fDepthOffset = depthOffset;
+		m_fBorderHeightMultiplier = borderHeightMultiplier;
 	}
 	
 	OTT_EOutsideTerrainSize GetSize()
@@ -68,6 +82,16 @@ class OTT_OutsideTerrainGeneratorOptions
 	OTT_OutsideTerrainContextOptions GetContextOptions()
 	{
 		return m_contextOptions;
+	}
+	
+	float GetDepthOffset()
+	{
+		return m_fDepthOffset;
+	}
+	
+	float GetBorderHeightMultiplier()
+	{
+		return m_fBorderHeightMultiplier;
 	}
 }
 

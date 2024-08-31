@@ -151,10 +151,15 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			}
 		}
 		
-		// Gettings terrain properties
+		// Getting terrain properties
 		
 		vector terrainMins = m_Terrain.GetMins();
 		vector terrainSize = m_Terrain.GetSize();
+		
+		// Getting outside terrain border properties
+		
+		float chunksDepthOffset = m_Options.GetDepthOffset();
+		float borderHeightMultiplier = m_Options.GetBorderHeightMultiplier();
 		
 		// Calculating outside terrain position
 		
@@ -198,12 +203,21 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					j = chunkResolution * x;
 					
 					chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, j, i, chunkResolution, chunkResolution);
+					
+					if (z == 0)
+					{
+						for (int k = 0; k < chunkResolution; k++)
+						{
+							chunkHeightmap[chunkResolution - 1][k] = chunkHeightmap[chunkResolution - 1][k] * borderHeightMultiplier;
+						}
+					}
+					
 					enablePhysics = z < chunkPhysicsDepth;
 					
 					position = {
 						outsideTerrainPosition[0] + (chunkWidth / 2) + (chunkWidth * x),
 						outsideTerrainPosition[1],
-						outsideTerrainPosition[2] + terrainSize[2] + (chunkHeight / 2) + (chunkHeight * z)
+						outsideTerrainPosition[2] + terrainSize[2] + (chunkHeight / 2) + (chunkHeight * z) + chunksDepthOffset
 					};
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
@@ -225,12 +239,21 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					j = chunkResolution * x;
 					
 					chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, j, i, chunkResolution, chunkResolution);
+					
+					if (z == 0)
+					{
+						for (int k = 0; k < chunkResolution; k++)
+						{
+							chunkHeightmap[0][k] = chunkHeightmap[0][k] * borderHeightMultiplier;
+						}
+					}
+					
 					enablePhysics = z < chunkPhysicsDepth;
 					
 					position = {
 						outsideTerrainPosition[0] + (chunkWidth / 2) + (chunkWidth * x),
 						outsideTerrainPosition[1],
-						outsideTerrainPosition[2] - (chunkHeight / 2) - (chunkHeight * z)
+						outsideTerrainPosition[2] - (chunkHeight / 2) - (chunkHeight * z) - chunksDepthOffset
 					};
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
@@ -253,10 +276,19 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					j = terrainHeightmapResolution - chunkResolution * (x + 1);
 					
 					chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, j, i, chunkResolution, chunkResolution);
+					
+					if (x == 0)
+					{
+						for (int k = 0; k < chunkResolution; k++)
+						{
+							chunkHeightmap[k][chunkResolution - 1] = chunkHeightmap[k][chunkResolution - 1] * borderHeightMultiplier;
+						}
+					}
+					
 					enablePhysics = x < chunkPhysicsDepth;
 					
 					position = {
-						outsideTerrainPosition[0] - (chunkWidth / 2) - (chunkWidth * x),
+						outsideTerrainPosition[0] - (chunkWidth / 2) - (chunkWidth * x) - chunksDepthOffset,
 						outsideTerrainPosition[1],
 						outsideTerrainPosition[2] + (chunkHeight / 2) + (chunkHeight * z)
 					};
@@ -280,10 +312,19 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					j = chunkResolution * x;
 					
 					chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, j, i, chunkResolution, chunkResolution);
+					
+					if (x == 0)
+					{
+						for (int k = 0; k < chunkResolution; k++)
+						{
+							chunkHeightmap[k][0] = chunkHeightmap[k][0] * borderHeightMultiplier;
+						}
+					}
+					
 					enablePhysics = x < chunkPhysicsDepth;
 					
 					position = {
-						outsideTerrainPosition[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x),
+						outsideTerrainPosition[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x) + chunksDepthOffset,
 						outsideTerrainPosition[1],
 						outsideTerrainPosition[2] + (chunkHeight / 2) + (chunkHeight * z)
 					};
@@ -308,12 +349,18 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					j = (chunkResolution * (chunksCount - chunksDepth)) + (chunkResolution * x);
 					
 					chunkHeightmap = OTT_HeightmapHelper.Select(cachedHeightmap, j, i, chunkResolution, chunkResolution);
+					
+					if (z == 0 && x == chunksDepth - 1)
+					{
+						chunkHeightmap[chunkResolution - 1][chunkResolution - 1] = chunkHeightmap[chunkResolution - 1][chunkResolution - 1] * borderHeightMultiplier;
+					}
+					
 					enablePhysics = x >= (chunksDepth - chunkPhysicsDepth) && z < chunkPhysicsDepth;
 					
 					position = {
-						outsideTerrainPosition[0] - ((chunksDepth - 1) * chunkWidth) - (chunkWidth / 2) + (chunkWidth * x),
+						outsideTerrainPosition[0] - ((chunksDepth - 1) * chunkWidth) - (chunkWidth / 2) + (chunkWidth * x) - chunksDepthOffset,
 						outsideTerrainPosition[1],
-						outsideTerrainPosition[2] + terrainSize[2] + (chunkHeight / 2) + (chunkHeight * z)
+						outsideTerrainPosition[2] + terrainSize[2] + (chunkHeight / 2) + (chunkHeight * z) + chunksDepthOffset
 					};
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
@@ -335,12 +382,18 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					j = chunkResolution * x;
 					
 					chunkHeightmap = OTT_HeightmapHelper.Select(cachedHeightmap, j, i, chunkResolution, chunkResolution);
+					
+					if (z == 0 && x == 0)
+					{
+						chunkHeightmap[chunkResolution - 1][0] = chunkHeightmap[chunkResolution - 1][0] * borderHeightMultiplier;
+					}
+					
 					enablePhysics = x < chunkPhysicsDepth && z < chunkPhysicsDepth;
 					
 					position = {
-						outsideTerrainPosition[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x),
+						outsideTerrainPosition[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x) + chunksDepthOffset,
 						outsideTerrainPosition[1],
-						outsideTerrainPosition[2] + terrainSize[2] + (chunkHeight / 2) + (chunkHeight * z)
+						outsideTerrainPosition[2] + terrainSize[2] + (chunkHeight / 2) + (chunkHeight * z) + chunksDepthOffset
 					};
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
@@ -362,12 +415,18 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					j = terrainHeightmapResolution - chunkResolution * (x + 1);
 					
 					chunkHeightmap = OTT_HeightmapHelper.Select(cachedHeightmap, j, i, chunkResolution, chunkResolution);
+					
+					if (z == 0 && x == 0)
+					{
+						chunkHeightmap[0][chunkResolution - 1] = chunkHeightmap[0][chunkResolution - 1] * borderHeightMultiplier;
+					}
+					
 					enablePhysics = x < chunkPhysicsDepth && z < chunkPhysicsDepth;
 					
 					position = {
-						outsideTerrainPosition[0] - (chunkWidth / 2) - (chunkWidth * x),
+						outsideTerrainPosition[0] - (chunkWidth / 2) - (chunkWidth * x) - chunksDepthOffset,
 						outsideTerrainPosition[1],
-						outsideTerrainPosition[2] - (chunkHeight / 2) - (chunkHeight * z)
+						outsideTerrainPosition[2] - (chunkHeight / 2) - (chunkHeight * z) - chunksDepthOffset
 					};
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
@@ -389,12 +448,18 @@ class OTT_SimpleOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					j = chunkResolution * x;
 					
 					chunkHeightmap = OTT_HeightmapHelper.Select(cachedHeightmap, j, i, chunkResolution, chunkResolution);
+					
+					if (z == 0 && x == 0)
+					{
+						chunkHeightmap[0][0] = chunkHeightmap[0][0] * borderHeightMultiplier;
+					}
+					
 					enablePhysics = x < chunkPhysicsDepth && z < chunkPhysicsDepth;
 					
 					position = {
-						outsideTerrainPosition[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x),
+						outsideTerrainPosition[0] + terrainSize[0] + (chunkWidth / 2) + (chunkWidth * x) + chunksDepthOffset,
 						outsideTerrainPosition[1],
-						outsideTerrainPosition[2] - (chunkHeight / 2) - (chunkHeight * z)
+						outsideTerrainPosition[2] - (chunkHeight / 2) - (chunkHeight * z) - chunksDepthOffset
 					};
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);

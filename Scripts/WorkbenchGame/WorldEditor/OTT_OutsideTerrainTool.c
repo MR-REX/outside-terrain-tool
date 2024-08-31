@@ -138,6 +138,18 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 	]
 	protected int m_iSmoothingIterations;
 	
+	// Category: Border
+	
+	[
+		Attribute
+		(
+			category: "Border",
+			desc: "Height multiplier on border of outside terrain",
+			defvalue: "1"
+		)
+	]
+	protected float m_fBorderHeightMultiplier;
+	
 	// Category: Transform
 	
 	[
@@ -150,6 +162,16 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		)
 	]
 	protected vector m_vChunksPositionOffset;
+	
+	[
+		Attribute
+		(
+			category: "Transform",
+			desc: "Depth offset for outside terrain chunks",
+			defvalue: "0"
+		)
+	]
+	protected float m_fChunksDepthOffset;
 	
 	// Category: Materials
 	
@@ -356,7 +378,9 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			quality: m_eOutsideTerrainQuality,
 			physicsType: m_ePhysicsType,
 			modifiers: heightmapModifiers,
-			contextOptions: contextOptions
+			contextOptions: contextOptions,
+			depthOffset: m_fChunksDepthOffset,
+			borderHeightMultiplier: m_fBorderHeightMultiplier
 		);
 		
 		OTT_OutsideTerrainGenerator generator = OTT_OutsideTerrainGeneratorFactory.Create(
