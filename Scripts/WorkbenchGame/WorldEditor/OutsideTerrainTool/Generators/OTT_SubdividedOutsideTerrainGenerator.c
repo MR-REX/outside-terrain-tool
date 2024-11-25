@@ -159,6 +159,19 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 					
 					copiedDetailedTerrainHeightmap[i + k][index - m] = nextHeight;
 				}
+				
+				// East
+				
+				index = detailedTerrainHeightmapResolution - chunkResolution;
+				copiedDetailedTerrainHeightmap[i + k][index] = terrainHeightmap[pointIndex][terrainHeightmapResolution - chunkResolution];
+				
+				for (int m = 1; m < chunkResolution - 1; m++)
+				{
+					nextHeight = interpolationConstaint * copiedDetailedTerrainHeightmap[i + k][index + m] +
+								 (1 - interpolationConstaint) * copiedDetailedTerrainHeightmap[i + k][index + (m - 1)];
+					
+					copiedDetailedTerrainHeightmap[i + k][index + m] = nextHeight;
+				}
 			}
 			
 			pointIndex++;
@@ -194,12 +207,11 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 			copiedDetailedTerrainHeightmap[i][chunkResolution - 1] = (leftHeight + rightHeight) / 2;
 			
 			// East
-			/*
-			leftHeight = detailedTerrainHeightmap[i - 1][detailedTerrainHeightmapResolution - chunkResolution + 1];
-			rightHeight = detailedTerrainHeightmap[i + 1][detailedTerrainHeightmapResolution - chunkResolution + 1];
 			
-			detailedTerrainHeightmap[i][detailedTerrainHeightmapResolution - chunkResolution + 1] = (leftHeight + rightHeight) / 2;
-			*/
+			leftHeight = copiedDetailedTerrainHeightmap[i - 1][detailedTerrainHeightmapResolution - chunkResolution];
+			rightHeight = copiedDetailedTerrainHeightmap[i + 1][detailedTerrainHeightmapResolution - chunkResolution];
+			
+			copiedDetailedTerrainHeightmap[i][detailedTerrainHeightmapResolution - chunkResolution] = (leftHeight + rightHeight) / 2;
 		}
 		
 		// 1.2. Merge heights at transitions of subdivided chunks (North & South)
@@ -219,6 +231,10 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 				// West
 				
 				copiedDetailedTerrainHeightmap[j][i] = copiedDetailedTerrainHeightmap[j + 1][i];
+				
+				// East
+				
+				copiedDetailedTerrainHeightmap[j][detailedTerrainHeightmapResolution - 1 - i] = copiedDetailedTerrainHeightmap[j + 1][detailedTerrainHeightmapResolution - 1 - i];
 			}
 		}
 		
@@ -428,6 +444,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 		
 		if (ShouldProcessSide(terrainSize[0] - 1, terrainSize[2] / 2) && !contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.East))
 		{
+			// Normal chunks
+			
 			for (int z = 0; z < chunksCount; z++)
 			{
 				for (int x = 1; x < chunksDepth; x++)
@@ -446,6 +464,27 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 				}
+			}
+			
+			// Subdivided chunks
+			
+			vector subdividedChunkSize = {chunkHeight, 0, subdividedChunkWidth};
+			
+			for (int z = 0; z < chunksCount * divisionMultiplier; z++)
+			{
+				i = detailedTerrainHeightmapResolution - chunkResolution * (z + 1);
+				j = 0;
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(copiedDetailedTerrainHeightmap, j, i, chunkResolution, chunkResolution);
+				enablePhysics = 0 < chunkPhysicsDepth;
+				
+				position = {
+					outsideTerrainPosition[0] + terrainSize[0] + (chunkWidth / 2) + chunksDepthOffset,
+					outsideTerrainPosition[1],
+					outsideTerrainPosition[2] + (subdividedChunkWidth / 2) + (subdividedChunkWidth * z)
+				};
+				
+				CreateChunk(position, vector.Zero, subdividedChunkSize, chunkHeightmap, enablePhysics);
 			}
 		}
 		
