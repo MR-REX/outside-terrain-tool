@@ -3,7 +3,8 @@
 enum OTT_EOutsideTerrainGeneratorTypes
 {
 	Simple,
-	Subdivided
+	Subdivided,
+	SuperFlat
 }
 
 class OTT_OutsideTerrainGeneratorFactory
@@ -16,6 +17,8 @@ class OTT_OutsideTerrainGeneratorFactory
 				return new OTT_SimpleOutsideTerrainGenerator(options, manager);
 			case OTT_EOutsideTerrainGeneratorTypes.Subdivided:
 				return new OTT_SubdividedOutsideTerrainGenerator(options, manager);
+			case OTT_EOutsideTerrainGeneratorTypes.SuperFlat:
+				return new OTT_SuperFlatOutsideTerrainGenerator(options, manager);
 		}
 		
 		return null;
