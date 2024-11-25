@@ -292,23 +292,23 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		Attribute
 		(
 			category: "Context",
-			desc: "Allows to ignore the South-East side of the map when generating outside terrain",
-			uiwidget: UIWidgets.CheckBox,
-			defvalue: "0"
-		)
-	]
-	protected bool m_bIgnoreSouthEast;
-	
-	[
-		Attribute
-		(
-			category: "Context",
 			desc: "Allows to ignore the South-West side of the map when generating outside terrain",
 			uiwidget: UIWidgets.CheckBox,
 			defvalue: "0"
 		)
 	]
 	protected bool m_bIgnoreSouthWest;
+	
+	[
+		Attribute
+		(
+			category: "Context",
+			desc: "Allows to ignore the South-East side of the map when generating outside terrain",
+			uiwidget: UIWidgets.CheckBox,
+			defvalue: "0"
+		)
+	]
+	protected bool m_bIgnoreSouthEast;
 	
 	// Button: Generate
 	
