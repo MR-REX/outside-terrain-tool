@@ -111,10 +111,26 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		float chunksDepthOffset = m_Options.GetDepthOffset();
 		
+		// Getting terrain heightmap
+		
+		int terrainHeightmapResolution = chunkResolution * chunksCount;
+		
+		array<ref array<float>> terrainHeightmap = m_Terrain.GetHeightmap(
+			terrainHeightmapResolution,
+			terrainHeightmapResolution
+		);
+		
+		// Flipping terrain heightmap
+		
+		OTT_HeightmapHelper.FlipHorizontal(terrainHeightmap);
+		
 		// Reusable variables
 		
 		vector chunkPosition;
 		bool shouldCreate;
+		
+		array<ref array<float>> chunkHeightmap;
+		int x, y;
 		
 		// Creating chunks for North side
 		
@@ -133,11 +149,16 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					terrainSize[2] + (chunkSize / 2) + chunksDepthOffset
 				};
 				
+				x = chunkResolution * i;
+				y = terrainHeightmapResolution - chunkResolution;
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, x, y, chunkResolution, chunkResolution);
+				
 				CreateChunk(
 					position: chunkPosition,
 					angles: vector.Zero,
 					size: chunkSizes,
-					heightmap: {{0, 0}, {0, 0}},
+					heightmap: chunkHeightmap,
 					enablePhysics: shouldEnablePhysics
 				);
 			}
@@ -160,15 +181,24 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					-(chunkSize / 2) - chunksDepthOffset
 				};
 				
+				x = chunkResolution * i;
+				y = 0;
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, x, y, chunkResolution, chunkResolution);
+				
 				CreateChunk(
 					position: chunkPosition,
 					angles: vector.Zero,
 					size: chunkSizes,
-					heightmap: {{0, 0}, {0, 0}},
+					heightmap: chunkHeightmap,
 					enablePhysics: shouldEnablePhysics
 				);
 			}
 		}
+		
+		// Rotating terrain heightmap
+		
+		OTT_HeightmapHelper.Rotate(terrainHeightmap, 2);
 		
 		// Creating chunks for West side
 		
@@ -187,11 +217,16 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					(chunkSize / 2) + (chunkSize * i)
 				};
 				
+				x = terrainHeightmapResolution - chunkResolution;
+				y = terrainHeightmapResolution - chunkResolution * (i + 1);
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, x, y, chunkResolution, chunkResolution);
+				
 				CreateChunk(
 					position: chunkPosition,
 					angles: vector.Zero,
 					size: chunkSizes,
-					heightmap: {{0, 0}, {0, 0}},
+					heightmap: chunkHeightmap,
 					enablePhysics: shouldEnablePhysics
 				);
 			}
@@ -214,11 +249,16 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					(chunkSize / 2) + (chunkSize * i)
 				};
 				
+				x = 0;
+				y = terrainHeightmapResolution - chunkResolution * (i + 1);
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, x, y, chunkResolution, chunkResolution);
+				
 				CreateChunk(
 					position: chunkPosition,
 					angles: vector.Zero,
 					size: chunkSizes,
-					heightmap: {{0, 0}, {0, 0}},
+					heightmap: chunkHeightmap,
 					enablePhysics: shouldEnablePhysics
 				);
 			}
