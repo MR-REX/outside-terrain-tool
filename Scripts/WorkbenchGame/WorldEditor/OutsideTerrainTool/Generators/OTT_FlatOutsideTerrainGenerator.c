@@ -124,6 +124,44 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		OTT_HeightmapHelper.FlipHorizontal(terrainHeightmap);
 		
+		// Alignment with planes for North and South sides
+		
+		for (int i = 0; i < terrainHeightmapResolution; i++)
+		{
+			// North
+			
+			terrainHeightmap[terrainHeightmapResolution - chunkResolution][i] = 0;
+			
+			// South
+			
+			terrainHeightmap[chunkResolution - 1][i] = 0;
+		}
+		
+		// Smoothing transition for North and South sides
+		
+		float interpolationConstaint = 0.25;
+		float nextHeight;
+		
+		for (int i = 0; i < terrainHeightmapResolution; i++)
+		{
+			for (int k = 1; k < chunkResolution - 1; k++)
+			{
+				// North
+				
+				nextHeight = interpolationConstaint * terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] +
+							 (1 - interpolationConstaint) * terrainHeightmap[terrainHeightmapResolution - chunkResolution + (k - 1)][i];
+				
+				terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] = nextHeight;
+				
+				// South
+				
+				nextHeight = interpolationConstaint * terrainHeightmap[chunkResolution - 1 - k][i] +
+							 (1 - interpolationConstaint) * terrainHeightmap[chunkResolution - 1 - (k - 1)][i];
+				
+				terrainHeightmap[chunkResolution - 1 - k][i] = nextHeight;
+			}
+		}
+		
 		// Reusable variables
 		
 		vector chunkPosition;
