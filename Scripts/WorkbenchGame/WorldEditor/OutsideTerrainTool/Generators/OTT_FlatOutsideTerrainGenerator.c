@@ -353,6 +353,36 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		OTT_HeightmapHelper.FlipHorizontal(terrainHeightmap);
 		OTT_HeightmapHelper.FlipVertical(terrainHeightmap);
 		
+		// Alignment with planes for North-West chunk
+		
+		for (int i = 0; i < chunkResolution; i++)
+		{
+			terrainHeightmap[terrainHeightmapResolution - chunkResolution + i][terrainHeightmapResolution - chunkResolution] = 0;
+			terrainHeightmap[terrainHeightmapResolution - chunkResolution][terrainHeightmapResolution - chunkResolution + i] = 0;
+		}
+		
+		// Smoothing transition for North-West chunk
+		
+		for (int i = 0; i < terrainHeightmapResolution; i++)
+		{
+			for (int k = 1; k < chunkResolution - 1; k++)
+			{
+				// From +X
+				
+				nextHeight = interpolationConstaint * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] +
+							 (1 - interpolationConstaint) * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + (k - 1)];
+				
+				terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] = nextHeight;
+				
+				// From -Z
+				
+				nextHeight = interpolationConstaint * terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] +
+							 (1 - interpolationConstaint) * terrainHeightmap[terrainHeightmapResolution - chunkResolution + (k - 1)][i];
+				
+				terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] = nextHeight;
+			}
+		}
+		
 		// Create chunk at North-West corner
 		
 		m_Manager.SetChunksPrefix("NorthWest");
@@ -381,6 +411,36 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				heightmap: chunkHeightmap,
 				enablePhysics: shouldEnablePhysics
 			);
+		}
+		
+		// Alignment with planes for North-East chunk
+		
+		for (int i = 0; i < chunkResolution; i++)
+		{
+			terrainHeightmap[terrainHeightmapResolution - chunkResolution][i] = 0;
+			terrainHeightmap[terrainHeightmapResolution - 1 - i][chunkResolution - 1] = 0;
+		}
+		
+		// Smoothing transition for North-East chunk
+		
+		for (int i = 0; i < terrainHeightmapResolution; i++)
+		{
+			for (int k = 1; k < chunkResolution - 1; k++)
+			{
+				// From -X
+				
+				nextHeight = interpolationConstaint * terrainHeightmap[i][chunkResolution - 1 - k] +
+							 (1 - interpolationConstaint) * terrainHeightmap[i][chunkResolution - 1 - (k - 1)];
+				
+				terrainHeightmap[i][chunkResolution - 1 - k] = nextHeight;
+				
+				// From -Z
+				
+				nextHeight = interpolationConstaint * terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] +
+							 (1 - interpolationConstaint) * terrainHeightmap[terrainHeightmapResolution - chunkResolution + (k - 1)][i];
+				
+				terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] = nextHeight;
+			}
 		}
 		
 		// Create chunk at North-East corner
@@ -413,6 +473,36 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			);
 		}
 		
+		// Alignment with planes for South-West chunk
+		
+		for (int i = 0; i < chunkResolution; i++)
+		{
+			terrainHeightmap[i][terrainHeightmapResolution - chunkResolution] = 0;
+			terrainHeightmap[chunkResolution - 1][terrainHeightmapResolution - chunkResolution + i] = 0;
+		}
+		
+		// Smoothing transition for South-West chunk
+		
+		for (int i = 0; i < terrainHeightmapResolution; i++)
+		{
+			for (int k = 1; k < chunkResolution - 1; k++)
+			{
+				// From +X
+				
+				nextHeight = interpolationConstaint * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] +
+							 (1 - interpolationConstaint) * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + (k - 1)];
+				
+				terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] = nextHeight;
+				
+				// From +Z
+				
+				nextHeight = interpolationConstaint * terrainHeightmap[chunkResolution - 1 - k][i] +
+							 (1 - interpolationConstaint) * terrainHeightmap[chunkResolution - 1 - (k - 1)][i];
+				
+				terrainHeightmap[chunkResolution - 1 - k][i] = nextHeight;
+			}
+		}
+		
 		// Create chunk at South-West corner
 		
 		m_Manager.SetChunksPrefix("SouthWest");
@@ -441,6 +531,36 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				heightmap: chunkHeightmap,
 				enablePhysics: shouldEnablePhysics
 			);
+		}
+		
+		// Alignment with planes for South-East chunk
+		
+		for (int i = 0; i < chunkResolution; i++)
+		{
+			terrainHeightmap[chunkResolution - 1][i] = 0;
+			terrainHeightmap[i][chunkResolution - 1] = 0;
+		}
+		
+		// Smoothing transition for South-East chunk
+		
+		for (int i = 0; i < terrainHeightmapResolution; i++)
+		{
+			for (int k = 1; k < chunkResolution - 1; k++)
+			{
+				// From -X
+				
+				nextHeight = interpolationConstaint * terrainHeightmap[i][chunkResolution - 1 - k] +
+							 (1 - interpolationConstaint) * terrainHeightmap[i][chunkResolution - 1 - (k - 1)];
+				
+				terrainHeightmap[i][chunkResolution - 1 - k] = nextHeight;
+				
+				// From +Z
+				
+				nextHeight = interpolationConstaint * terrainHeightmap[chunkResolution - 1 - k][i] +
+							 (1 - interpolationConstaint) * terrainHeightmap[chunkResolution - 1 - (k - 1)][i];
+				
+				terrainHeightmap[chunkResolution - 1 - k][i] = nextHeight;
+			}
 		}
 		
 		// Create chunk at South-East corner
