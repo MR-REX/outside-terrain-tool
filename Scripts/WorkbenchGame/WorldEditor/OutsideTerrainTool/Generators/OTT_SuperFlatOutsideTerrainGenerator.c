@@ -149,7 +149,7 @@ class OTT_SuperFlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Create plane at East
 		
-		if (!contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.West))
+		if (!contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.East))
 		{
 			planePosition = outsideTerrainPosition + {
 				terrainSize[0] + planeDepth / 2 + planeDepthOffset,
