@@ -234,9 +234,50 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			}
 		}
 		
-		// Rotating terrain heightmap
+		// Restoring, flipping and rotating terrain heightmap
 		
+		terrainHeightmap = m_Terrain.GetHeightmap(
+			terrainHeightmapResolution,
+			terrainHeightmapResolution
+		);
+		
+		OTT_HeightmapHelper.FlipHorizontal(terrainHeightmap);
 		OTT_HeightmapHelper.Rotate(terrainHeightmap, 2);
+		
+		// Alignment with planes for West and East sides
+		
+		for (int i = 0; i < terrainHeightmapResolution; i++)
+		{
+			// West
+			
+			terrainHeightmap[i][terrainHeightmapResolution - chunkResolution] = 0;
+			
+			// East
+			
+			terrainHeightmap[i][chunkResolution - 1] = 0;
+		}
+		
+		// Smoothing transition for West and East sides
+		
+		for (int i = 0; i < terrainHeightmapResolution; i++)
+		{
+			for (int k = 1; k < chunkResolution - 1; k++)
+			{
+				// West
+				
+				nextHeight = interpolationConstaint * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] +
+							 (1 - interpolationConstaint) * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + (k - 1)];
+				
+				terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] = nextHeight;
+				
+				// East
+				
+				nextHeight = interpolationConstaint * terrainHeightmap[i][chunkResolution - 1 - k] +
+							 (1 - interpolationConstaint) * terrainHeightmap[i][chunkResolution - 1 - (k - 1)];
+				
+				terrainHeightmap[i][chunkResolution - 1 - k] = nextHeight;
+			}
+		}
 		
 		// Creating chunks for West side
 		
