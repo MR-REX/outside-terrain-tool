@@ -113,7 +113,11 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 		for (int i = 0; i < detailedTerrainHeightmapResolution; i += divisionMultiplier)
 		{
 			for (int k = 0; k < divisionMultiplier; k++)
-			{	
+			{
+				int index;
+				
+				// North
+				
 				detailedTerrainHeightmap[chunkResolution - 1][i + k] = terrainHeightmap[chunkResolution - 1][pointIndex];
 				
 				for (int m = 1; m < chunkResolution - 1; m++)
@@ -123,9 +127,75 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 					
 					detailedTerrainHeightmap[chunkResolution - 1 - m][i + k] = nextHeight;
 				}
+				
+				// South
+				
+				index = detailedTerrainHeightmapResolution - chunkResolution;
+				detailedTerrainHeightmap[index][i + k] = terrainHeightmap[terrainHeightmapResolution - chunkResolution][pointIndex];
+				
+				for (int m = 1; m < chunkResolution - 1; m++)
+				{
+					nextHeight = interpolationConstaint * detailedTerrainHeightmap[index + m][i + k] +
+								 (1 - interpolationConstaint) * detailedTerrainHeightmap[index + (m - 1)][i + k];
+					
+					detailedTerrainHeightmap[index + m][i + k] = nextHeight;
+				}
 			}
 			
 			pointIndex++;
+		}
+		
+		// 1. Errors correction after interpolation process
+		
+		// 1.1. Eliminating sharp elevation changes at borders
+		
+		float leftHeight, rightHeight;
+		
+		for (int i = 1; i < detailedTerrainHeightmapResolution - 1; i += 2)
+		{
+			// North
+			
+			leftHeight = detailedTerrainHeightmap[chunkResolution - 1][i - 1];
+			rightHeight = detailedTerrainHeightmap[chunkResolution - 1][i + 1];
+			
+			detailedTerrainHeightmap[chunkResolution - 1][i] = (leftHeight + rightHeight) / 2;
+			
+			// South
+			
+			leftHeight = detailedTerrainHeightmap[detailedTerrainHeightmapResolution - chunkResolution][i - 1];
+			rightHeight = detailedTerrainHeightmap[detailedTerrainHeightmapResolution - chunkResolution][i + 1];
+			
+			detailedTerrainHeightmap[detailedTerrainHeightmapResolution - chunkResolution][i] = (leftHeight + rightHeight) / 2;
+			
+			// West
+			
+			leftHeight = detailedTerrainHeightmap[i - 1][chunkResolution - 1];
+			rightHeight = detailedTerrainHeightmap[i + 1][chunkResolution - 1];
+			
+			detailedTerrainHeightmap[i][chunkResolution - 1] = (leftHeight + rightHeight) / 2;
+			
+			// East
+			
+			leftHeight = detailedTerrainHeightmap[i - 1][detailedTerrainHeightmapResolution - chunkResolution + 1];
+			rightHeight = detailedTerrainHeightmap[i + 1][detailedTerrainHeightmapResolution - chunkResolution + 1];
+			
+			detailedTerrainHeightmap[i][detailedTerrainHeightmapResolution - chunkResolution + 1] = (leftHeight + rightHeight) / 2;
+		}
+		
+		// 1.2. Merge heights at transitions of subdivided chunks (North & South)
+		
+		for (int i = 0; i < chunkResolution; i++)
+		{
+			for (int j = chunkResolution - 1; j < detailedTerrainHeightmapResolution - 1; j += chunkResolution)
+			{
+				// North
+				
+				detailedTerrainHeightmap[i][j] = detailedTerrainHeightmap[i][j + 1];
+				
+				// South
+				
+				detailedTerrainHeightmap[detailedTerrainHeightmapResolution - 1 - i][j] = detailedTerrainHeightmap[detailedTerrainHeightmapResolution - 1 - i][j + 1];
+			}
 		}
 		
 		// Getting terrain properties
@@ -228,6 +298,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 		
 		if (ShouldProcessSide(terrainSize[0] / 2, 0) && !contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.South))
 		{
+			// Normal chunks
+			
 			for (int z = 1; z < chunksDepth; z++)
 			{
 				for (int x = 0; x < chunksCount; x++)
@@ -246,6 +318,27 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 				}
+			}
+			
+			// Subdivided chunks
+			
+			vector subdividedChunkSize = {subdividedChunkWidth, 0, chunkHeight};
+			
+			for (int x = 0; x < chunksCount * divisionMultiplier; x++)
+			{
+				i = 0;
+				j = chunkResolution * x;
+				
+				chunkHeightmap = OTT_HeightmapHelper.Select(detailedTerrainHeightmap, j, i, chunkResolution, chunkResolution);
+				enablePhysics = 0 < chunkPhysicsDepth;
+				
+				position = {
+					outsideTerrainPosition[0] + (subdividedChunkWidth / 2) + (subdividedChunkWidth * x),
+					outsideTerrainPosition[1],
+					outsideTerrainPosition[2] - (chunkHeight / 2) - chunksDepthOffset
+				};
+				
+				CreateChunk(position, vector.Zero, subdividedChunkSize, chunkHeightmap, enablePhysics);
 			}
 		}
 		
