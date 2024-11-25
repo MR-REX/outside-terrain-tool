@@ -275,6 +275,21 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 		
 		array<ref array<float>> cachedHeightmap = OTT_HeightmapHelper.Resize(terrainHeightmap, terrainHeightmapResolution, terrainHeightmapResolution);
 		
+		// 1.3. Correction of diagonal joins
+		
+		for (int i = 0; i < chunkResolution; i++)
+		{
+			// Horizontal : North (North-West & North-East)
+			
+			detailedTerrainHeightmap[detailedTerrainHeightmapResolution - chunkResolution + i][0] = cachedHeightmap[terrainHeightmapResolution - chunkResolution + i][0];
+			detailedTerrainHeightmap[detailedTerrainHeightmapResolution - chunkResolution + i][detailedTerrainHeightmapResolution - 1] = cachedHeightmap[terrainHeightmapResolution - chunkResolution + i][terrainHeightmapResolution - 1];
+		
+			// Horizontal : South (South-West & South-East)
+			
+			detailedTerrainHeightmap[i][0] = cachedHeightmap[i][0];
+			detailedTerrainHeightmap[i][detailedTerrainHeightmapResolution - 1] = cachedHeightmap[i][terrainHeightmapResolution - 1];
+		}
+		
 		// Initializing temporary variables
 		
 		array<ref array<float>> chunkHeightmap;
@@ -494,7 +509,7 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 		OTT_HeightmapHelper.FlipVertical(cachedHeightmap);
 		
 		if (ShouldProcessSide(terrainSize[0] / 2, terrainSize[2] - 1) && ShouldProcessSide(0, terrainSize[2] / 2) && !contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.NorthWest))
-		{
+		{			
 			for (int z = 0; z < chunksDepth; z++)
 			{
 				for (int x = 0; x < chunksDepth; x++)
