@@ -79,10 +79,18 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 	}
 	
 	protected bool processChunks()
-	{
+	{	
 		// Getting context options
 		
 		OTT_OutsideTerrainContextOptions contextOptions = m_Options.GetContextOptions();
+		
+		// Getting chunk options
+		
+		OTT_OutsideTerrainChunkOptions chunkOptions = m_Manager.GetChunkOptions();
+		
+		// Getting chunks offset from chunk options
+		
+		vector chunksPositionOffset = chunkOptions.GetPositionOffset();
 		
 		// Getting terrain data
 		
@@ -130,11 +138,11 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		{
 			// North
 			
-			terrainHeightmap[terrainHeightmapResolution - chunkResolution][i] = 0;
+			terrainHeightmap[terrainHeightmapResolution - chunkResolution][i] = chunksPositionOffset[1];
 			
 			// South
 			
-			terrainHeightmap[chunkResolution - 1][i] = 0;
+			terrainHeightmap[chunkResolution - 1][i] = chunksPositionOffset[1];
 		}
 		
 		// Smoothing transition for North and South sides
@@ -183,7 +191,7 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			{
 				chunkPosition = outsideTerrainPosition + {
 					(chunkSize / 2) + (chunkSize * i),
-					0,
+					-chunksPositionOffset[1],
 					terrainSize[2] + (chunkSize / 2) + chunksDepthOffset
 				};
 				
@@ -215,7 +223,7 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			{
 				chunkPosition = outsideTerrainPosition + {
 					(chunkSize / 2) + (chunkSize * i),
-					0,
+					-chunksPositionOffset[1],
 					-(chunkSize / 2) - chunksDepthOffset
 				};
 				
@@ -250,11 +258,11 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		{
 			// West
 			
-			terrainHeightmap[i][terrainHeightmapResolution - chunkResolution] = 0;
+			terrainHeightmap[i][terrainHeightmapResolution - chunkResolution] = chunksPositionOffset[1];
 			
 			// East
 			
-			terrainHeightmap[i][chunkResolution - 1] = 0;
+			terrainHeightmap[i][chunkResolution - 1] = chunksPositionOffset[1];
 		}
 		
 		// Smoothing transition for West and East sides
@@ -292,7 +300,7 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			{
 				chunkPosition = outsideTerrainPosition + {
 					-(chunkSize / 2) - chunksDepthOffset,
-					0,
+					-chunksPositionOffset[1],
 					(chunkSize / 2) + (chunkSize * i)
 				};
 				
@@ -324,7 +332,7 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			{
 				chunkPosition = outsideTerrainPosition + {
 					terrainSize[0] + (chunkSize / 2) + chunksDepthOffset,
-					0,
+					-chunksPositionOffset[1],
 					(chunkSize / 2) + (chunkSize * i)
 				};
 				
@@ -357,8 +365,8 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		for (int i = 0; i < chunkResolution; i++)
 		{
-			terrainHeightmap[terrainHeightmapResolution - chunkResolution + i][terrainHeightmapResolution - chunkResolution] = 0;
-			terrainHeightmap[terrainHeightmapResolution - chunkResolution][terrainHeightmapResolution - chunkResolution + i] = 0;
+			terrainHeightmap[terrainHeightmapResolution - chunkResolution + i][terrainHeightmapResolution - chunkResolution] = chunksPositionOffset[1];
+			terrainHeightmap[terrainHeightmapResolution - chunkResolution][terrainHeightmapResolution - chunkResolution + i] = chunksPositionOffset[1];
 		}
 		
 		// Smoothing transition for North-West chunk
@@ -395,7 +403,7 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		{
 			chunkPosition = outsideTerrainPosition + {
 				-(chunkSize / 2) - chunksDepthOffset,
-				0,
+				-chunksPositionOffset[1],
 				terrainSize[2] + (chunkSize / 2) + chunksDepthOffset
 			};
 			
@@ -417,8 +425,8 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		for (int i = 0; i < chunkResolution; i++)
 		{
-			terrainHeightmap[terrainHeightmapResolution - chunkResolution][i] = 0;
-			terrainHeightmap[terrainHeightmapResolution - 1 - i][chunkResolution - 1] = 0;
+			terrainHeightmap[terrainHeightmapResolution - chunkResolution][i] = chunksPositionOffset[1];
+			terrainHeightmap[terrainHeightmapResolution - 1 - i][chunkResolution - 1] = chunksPositionOffset[1];
 		}
 		
 		// Smoothing transition for North-East chunk
@@ -455,7 +463,7 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		{
 			chunkPosition = outsideTerrainPosition + {
 				terrainSize[0] + (chunkSize / 2) + chunksDepthOffset,
-				0,
+				-chunksPositionOffset[1],
 				terrainSize[2] + (chunkSize / 2) + chunksDepthOffset
 			};
 			
@@ -477,8 +485,8 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		for (int i = 0; i < chunkResolution; i++)
 		{
-			terrainHeightmap[i][terrainHeightmapResolution - chunkResolution] = 0;
-			terrainHeightmap[chunkResolution - 1][terrainHeightmapResolution - chunkResolution + i] = 0;
+			terrainHeightmap[i][terrainHeightmapResolution - chunkResolution] = chunksPositionOffset[1];
+			terrainHeightmap[chunkResolution - 1][terrainHeightmapResolution - chunkResolution + i] = chunksPositionOffset[1];
 		}
 		
 		// Smoothing transition for South-West chunk
@@ -515,7 +523,7 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		{
 			chunkPosition = outsideTerrainPosition + {
 				-(chunkSize / 2) - chunksDepthOffset,
-				0,
+				-chunksPositionOffset[1],
 				-(chunkSize / 2) - chunksDepthOffset
 			};
 			
@@ -537,8 +545,8 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		for (int i = 0; i < chunkResolution; i++)
 		{
-			terrainHeightmap[chunkResolution - 1][i] = 0;
-			terrainHeightmap[i][chunkResolution - 1] = 0;
+			terrainHeightmap[chunkResolution - 1][i] = chunksPositionOffset[1];
+			terrainHeightmap[i][chunkResolution - 1] = chunksPositionOffset[1];
 		}
 		
 		// Smoothing transition for South-East chunk
@@ -575,7 +583,7 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		{
 			chunkPosition = outsideTerrainPosition + {
 				terrainSize[0] + (chunkSize / 2) + chunksDepthOffset,
-				0,
+				-chunksPositionOffset[1],
 				-(chunkSize / 2) + chunksDepthOffset
 			};
 			
