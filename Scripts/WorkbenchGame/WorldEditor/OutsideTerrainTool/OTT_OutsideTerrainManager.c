@@ -39,6 +39,11 @@ class OTT_OutsideTerrainManager
 		return m_iLayerID != -1;
 	}
 	
+	OTT_OutsideTerrainChunkOptions GetChunkOptions()
+	{
+		return m_ChunkOptions;
+	}
+	
 	void SetChunksPrefix(string chunksPrefix)
 	{
 		m_sChunksPrefix = chunksPrefix;
