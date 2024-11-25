@@ -51,6 +51,16 @@ class OTT_SuperFlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		return physicsType == OTT_EOutsideTerrainPhysicsType.Full;
 	}
 	
+	protected bool ShouldProcessSide(float x, float z)
+	{
+		OTT_OutsideTerrainContextOptions contextOptions = m_Options.GetContextOptions();
+		
+		if (!contextOptions.ShouldTrackOceanLevel())
+			return true;
+		
+		return m_Terrain.GetSurfaceHeight(x, z) > m_Terrain.GetOceanHeight(x, z);
+	}
+	
 	override protected bool Process()
 	{
 		// Getting context options
@@ -89,10 +99,16 @@ class OTT_SuperFlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		// Reusable variables
 		
 		vector planePosition;
+		bool shouldCreate;
 		
 		// Create plane at North
 		
-		if (!contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.North))
+		m_Manager.SetChunksPrefix("North");
+		
+		shouldCreate = ShouldProcessSide(terrainSize[0] / 2, terrainSize[2] - 1) &&
+					   !contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.North);
+		
+		if (shouldCreate)
 		{
 			planePosition = outsideTerrainPosition + {
 				terrainSize[0] / 2,
@@ -111,7 +127,12 @@ class OTT_SuperFlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Create plane at South
 		
-		if (!contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.South))
+		m_Manager.SetChunksPrefix("South");
+		
+		shouldCreate = ShouldProcessSide(terrainSize[0] / 2, 0) &&
+					   !contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.South);
+		
+		if (shouldCreate)
 		{
 			planePosition = outsideTerrainPosition + {
 				terrainSize[0] / 2,
@@ -130,7 +151,12 @@ class OTT_SuperFlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Create plane at West
 		
-		if (!contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.West))
+		m_Manager.SetChunksPrefix("West");
+		
+		shouldCreate = ShouldProcessSide(0, terrainSize[2] / 2) &&
+					   !contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.West);
+		
+		if (shouldCreate)
 		{
 			planePosition = outsideTerrainPosition + {
 				-(planeDepth / 2) - planeDepthOffset,
@@ -149,7 +175,12 @@ class OTT_SuperFlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Create plane at East
 		
-		if (!contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.East))
+		m_Manager.SetChunksPrefix("East");
+		
+		shouldCreate = ShouldProcessSide(terrainSize[0] - 1, terrainSize[2] / 2) &&
+					   !contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.East);
+		
+		if (shouldCreate)
 		{
 			planePosition = outsideTerrainPosition + {
 				terrainSize[0] + planeDepth / 2 + planeDepthOffset,
@@ -168,7 +199,13 @@ class OTT_SuperFlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Create plane at North-West
 		
-		if (!contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.NorthWest))
+		m_Manager.SetChunksPrefix("NorthWest");
+		
+		shouldCreate = ShouldProcessSide(terrainSize[0] / 2, terrainSize[2] - 1) &&
+					   ShouldProcessSide(0, terrainSize[2] / 2) &&
+					   !contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.NorthWest);
+		
+		if (shouldCreate)
 		{
 			planePosition = outsideTerrainPosition + {
 				-(planeDepth / 2) - planeDepthOffset,
@@ -187,7 +224,13 @@ class OTT_SuperFlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Create plane at North-East
 		
-		if (!contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.NorthEast))
+		m_Manager.SetChunksPrefix("NorthEast");
+		
+		shouldCreate = ShouldProcessSide(terrainSize[0] / 2, terrainSize[2] - 1) &&
+					   ShouldProcessSide(terrainSize[0] - 1, terrainSize[2] / 2) &&
+					   !contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.NorthEast);
+		
+		if (shouldCreate)
 		{
 			planePosition = outsideTerrainPosition + {
 				terrainSize[0] + planeDepth / 2 + planeDepthOffset,
@@ -206,7 +249,13 @@ class OTT_SuperFlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Create plane at South-West
 		
-		if (!contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.SouthWest))
+		m_Manager.SetChunksPrefix("SouthWest");
+		
+		shouldCreate = ShouldProcessSide(terrainSize[0] / 2, 0) &&
+					   ShouldProcessSide(0, terrainSize[2] / 2) &&
+					   !contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.SouthWest);
+		
+		if (shouldCreate)
 		{
 			planePosition = outsideTerrainPosition + {
 				-(planeDepth / 2) - planeDepthOffset,
@@ -225,7 +274,13 @@ class OTT_SuperFlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		
 		// Create plane at South-East
 		
-		if (!contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.SouthEast))
+		m_Manager.SetChunksPrefix("SouthEast");
+		
+		shouldCreate = ShouldProcessSide(terrainSize[0] / 2, 0) &&
+					   ShouldProcessSide(terrainSize[0] - 1, terrainSize[2] / 2) &&
+					   !contextOptions.ShouldIgnoreDirection(OTT_CardinalDirections.SouthEast);
+		
+		if (shouldCreate)
 		{
 			planePosition = outsideTerrainPosition + {
 				terrainSize[0] + planeDepth / 2 + planeDepthOffset,
