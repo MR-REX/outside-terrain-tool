@@ -275,7 +275,7 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 		
 		array<ref array<float>> cachedHeightmap = OTT_HeightmapHelper.Resize(terrainHeightmap, terrainHeightmapResolution, terrainHeightmapResolution);
 		
-		// 1.3. Correction of diagonal joins
+		// Diagonal joins corrections
 		
 		for (int i = 0; i < chunkResolution; i++)
 		{
@@ -288,6 +288,16 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 			
 			detailedTerrainHeightmap[i][0] = cachedHeightmap[i][0];
 			detailedTerrainHeightmap[i][detailedTerrainHeightmapResolution - 1] = cachedHeightmap[i][terrainHeightmapResolution - 1];
+			
+			// Vertical : West (North-West & South-West)
+			
+			copiedDetailedTerrainHeightmap[detailedTerrainHeightmapResolution - 1][i] = cachedHeightmap[terrainHeightmapResolution - 1][i];
+			copiedDetailedTerrainHeightmap[0][i] = cachedHeightmap[0][i];
+			
+			// Vertical : East (North-East & South-East)
+			
+			copiedDetailedTerrainHeightmap[detailedTerrainHeightmapResolution - 1][detailedTerrainHeightmapResolution - chunkResolution + i] = cachedHeightmap[terrainHeightmapResolution - 1][terrainHeightmapResolution - chunkResolution + i];
+			copiedDetailedTerrainHeightmap[0][detailedTerrainHeightmapResolution - chunkResolution + i] = cachedHeightmap[0][terrainHeightmapResolution - chunkResolution + i];
 		}
 		
 		// Initializing temporary variables
