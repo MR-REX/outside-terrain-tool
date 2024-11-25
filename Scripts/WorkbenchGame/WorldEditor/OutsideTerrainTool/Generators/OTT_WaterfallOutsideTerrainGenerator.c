@@ -178,6 +178,17 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		array<ref array<float>> chunkHeightmap;
 		int x, y;
 		
+		// Error correction: connecting chunks for North and South sides
+		
+		for (int j = chunkResolution - 1; j < terrainHeightmapResolution - 1; j += chunkResolution)
+		{
+			for (int i = 0; i < chunkResolution; i++)
+			{
+				terrainHeightmap[i][j] = terrainHeightmap[i][j + 1];
+				terrainHeightmap[terrainHeightmapResolution - 1 - i][j] = terrainHeightmap[terrainHeightmapResolution - 1 - i][j + 1];
+			}
+		}
+		
 		// Creating chunks for North side
 		
 		m_Manager.SetChunksPrefix("North");
@@ -284,6 +295,17 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 							 (1 - interpolationConstaint) * terrainHeightmap[i][chunkResolution - 1 - (k - 1)];
 				
 				terrainHeightmap[i][chunkResolution - 1 - k] = nextHeight;
+			}
+		}
+		
+		// Error correction: connecting chunks for West and East sides
+		
+		for (int j = 0; j < chunkResolution; j++)
+		{
+			for (int i = chunkResolution - 1; i < terrainHeightmapResolution - 1; i += chunkResolution)
+			{
+				terrainHeightmap[i][j] = terrainHeightmap[i + 1][j];
+				terrainHeightmap[i][terrainHeightmapResolution - 1 - j] = terrainHeightmap[i + 1][terrainHeightmapResolution - 1 - j];
 			}
 		}
 		
