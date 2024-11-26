@@ -178,6 +178,10 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		array<ref array<float>> chunkHeightmap;
 		int x, y;
 		
+		// Stored chunks heightmaps
+		
+		array<ref array<float>> storedHeightmaps[8];
+		
 		// Error correction: connecting chunks for North and South sides
 		
 		for (int j = chunkResolution - 1; j < terrainHeightmapResolution - 1; j += chunkResolution)
@@ -218,6 +222,9 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					heightmap: chunkHeightmap,
 					enablePhysics: shouldEnablePhysics
 				);
+				
+				if (i == 0) storedHeightmaps[0] = chunkHeightmap;
+				if (i == chunksCount - 1) storedHeightmaps[1] = chunkHeightmap;
 			}
 		}
 		
@@ -250,6 +257,9 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					heightmap: chunkHeightmap,
 					enablePhysics: shouldEnablePhysics
 				);
+				
+				if (i == 0) storedHeightmaps[2] = chunkHeightmap;
+				if (i == chunksCount - 1) storedHeightmaps[3] = chunkHeightmap;
 			}
 		}
 		
@@ -338,6 +348,9 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					heightmap: chunkHeightmap,
 					enablePhysics: shouldEnablePhysics
 				);
+				
+				if (i == 0) storedHeightmaps[4] = chunkHeightmap;
+				if (i == chunksCount - 1) storedHeightmaps[5] = chunkHeightmap;
 			}
 		}
 		
@@ -370,6 +383,9 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					heightmap: chunkHeightmap,
 					enablePhysics: shouldEnablePhysics
 				);
+				
+				if (i == 0) storedHeightmaps[6] = chunkHeightmap;
+				if (i == chunksCount - 1) storedHeightmaps[7] = chunkHeightmap;
 			}
 		}
 		
@@ -434,6 +450,26 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			
 			chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, x, y, chunkResolution, chunkResolution);
 			
+			// Join with first North side chunk
+			
+			if (storedHeightmaps[0] != null)
+			{
+				for (int i = 0; i < chunkResolution; i++)
+				{
+					chunkHeightmap[i][chunkResolution - 1] = storedHeightmaps[0][i][0];
+				}
+			}
+			
+			// Join with last West side chunk
+			
+			if (storedHeightmaps[5] != null)
+			{
+				for (int i = 0; i < chunkResolution; i++)
+				{
+					chunkHeightmap[chunkResolution - 1][i] = storedHeightmaps[5][0][i];
+				}
+			}
+			
 			CreateChunk(
 				position: chunkPosition,
 				angles: vector.Zero,
@@ -493,6 +529,26 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			y = terrainHeightmapResolution - chunkResolution;
 			
 			chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, x, y, chunkResolution, chunkResolution);
+			
+			// Join with last North side chunk
+			
+			if (storedHeightmaps[1] != null)
+			{
+				for (int i = 0; i < chunkResolution; i++)
+				{
+					chunkHeightmap[i][0] = storedHeightmaps[1][i][chunkResolution - 1];
+				}
+			}
+			
+			// Join with last East side chunk
+			
+			if (storedHeightmaps[7] != null)
+			{
+				for (int i = 0; i < chunkResolution; i++)
+				{
+					chunkHeightmap[chunkResolution - 1][i] = storedHeightmaps[7][0][i];
+				}
+			}
 			
 			CreateChunk(
 				position: chunkPosition,
@@ -554,6 +610,26 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			
 			chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, x, y, chunkResolution, chunkResolution);
 			
+			// Join with first West side chunk
+			
+			if (storedHeightmaps[4] != null)
+			{
+				for (int i = 0; i < chunkResolution; i++)
+				{
+					chunkHeightmap[0][i] = storedHeightmaps[4][chunkResolution - 1][i];
+				}
+			}
+			
+			// Join with first South side chunk
+			
+			if (storedHeightmaps[2] != null)
+			{
+				for (int i = 0; i < chunkResolution; i++)
+				{
+					chunkHeightmap[i][chunkResolution - 1] = storedHeightmaps[2][i][0];
+				}
+			}
+			
 			CreateChunk(
 				position: chunkPosition,
 				angles: vector.Zero,
@@ -613,6 +689,26 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			y = 0;
 			
 			chunkHeightmap = OTT_HeightmapHelper.Select(terrainHeightmap, x, y, chunkResolution, chunkResolution);
+			
+			// Join with first East side chunk
+			
+			if (storedHeightmaps[6] != null)
+			{
+				for (int i = 0; i < chunkResolution; i++)
+				{
+					chunkHeightmap[0][i] = storedHeightmaps[6][chunkResolution - 1][i];
+				}
+			}
+			
+			// Join with last South side chunk
+			
+			if (storedHeightmaps[3] != null)
+			{
+				for (int i = 0; i < chunkResolution; i++)
+				{
+					chunkHeightmap[i][0] = storedHeightmaps[3][i][chunkResolution - 1];
+				}
+			}
 			
 			CreateChunk(
 				position: chunkPosition,
