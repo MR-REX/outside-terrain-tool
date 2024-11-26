@@ -23,9 +23,9 @@ class OTT_OutsideTerrainGenerationReport
 		
 		return string.Format(
 			SCR_StringHelper.Join("\n", lines),
-			m_generationResult.GetChunksCount(),
-			m_generationResult.GetVerticesCount(),
-			m_generationResult.GetTrianglesCount(),
+			OTT_FormatHelper.FormatInteger(m_generationResult.GetChunksCount()),
+			OTT_FormatHelper.FormatInteger(m_generationResult.GetVerticesCount()),
+			OTT_FormatHelper.FormatInteger(m_generationResult.GetTrianglesCount()),
 			SCR_FormatHelper.FormatTime(m_generationResult.GetGenerationDuration())
 		);
 	}
