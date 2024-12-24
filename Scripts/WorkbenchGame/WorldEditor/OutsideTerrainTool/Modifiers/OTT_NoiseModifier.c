@@ -67,8 +67,6 @@ class OTT_NoiseModifier : OTT_HeightmapModifier
 		int columns = heightmap[0].Count();
 		int index = 0;
 		
-		float height;
-		
 		for (int i = 0; i < rows; i++)
 		{
 			for (int j = 0; j < columns; j++)

@@ -20,12 +20,14 @@ class OTT_OutsideTerrainManager
 	}
 	
 	// I don't know how to delete entity layer with all entities on it, sorry :c
+	// FIXME: After update 1.2.1 from WorldEditorAPI method GetEntityLayerId has been renamed to GetSubsceneLayerId
+	//        but I'm not sure that this method does the same thing
 	void Initialize(string layerName)
 	{
 		int subsceneId = m_WorldEditorAPI.GetCurrentSubScene();
-		int layerId = m_WorldEditorAPI.GetEntityLayerId(subsceneId, layerName);
+		int layerId = m_WorldEditorAPI.GetSubsceneLayerId(subsceneId, layerName);
 		
-		if (layerId != -1)
+		if (layerId != 0)
 		{
 			Workbench.Dialog("Layer already exists", "Before starting the outside terrain generation, make sure that entity layer with the specified name doesn't exists.");
 			return;
