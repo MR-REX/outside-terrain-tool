@@ -2,7 +2,7 @@
 
 class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 {
-	protected const float INTERPOLATION_CONSTAINT = 0.25;
+	protected const float INTERPOLATION_CONSTANT = 0.25;
 	
 	protected int GetDivisionMultiplier()
 	{
@@ -129,8 +129,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 				
 				for (int m = 1; m < chunkResolution - 1; m++)
 				{
-					nextHeight = INTERPOLATION_CONSTAINT * detailedTerrainHeightmap[chunkResolution - 1 - m][i + k] +
-								 (1 - INTERPOLATION_CONSTAINT) * detailedTerrainHeightmap[chunkResolution - 1 - (m - 1)][i + k];
+					nextHeight = INTERPOLATION_CONSTANT * detailedTerrainHeightmap[chunkResolution - 1 - m][i + k] +
+								 (1 - INTERPOLATION_CONSTANT) * detailedTerrainHeightmap[chunkResolution - 1 - (m - 1)][i + k];
 					
 					detailedTerrainHeightmap[chunkResolution - 1 - m][i + k] = nextHeight;
 				}
@@ -142,8 +142,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 				
 				for (int m = 1; m < chunkResolution - 1; m++)
 				{
-					nextHeight = INTERPOLATION_CONSTAINT * detailedTerrainHeightmap[index + m][i + k] +
-								 (1 - INTERPOLATION_CONSTAINT) * detailedTerrainHeightmap[index + (m - 1)][i + k];
+					nextHeight = INTERPOLATION_CONSTANT * detailedTerrainHeightmap[index + m][i + k] +
+								 (1 - INTERPOLATION_CONSTANT) * detailedTerrainHeightmap[index + (m - 1)][i + k];
 					
 					detailedTerrainHeightmap[index + m][i + k] = nextHeight;
 				}
@@ -155,8 +155,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 				
 				for (int m = 1; m < chunkResolution - 1; m++)
 				{
-					nextHeight = INTERPOLATION_CONSTAINT * copiedDetailedTerrainHeightmap[i + k][index - m] +
-								 (1 - INTERPOLATION_CONSTAINT) * copiedDetailedTerrainHeightmap[i + k][index - (m - 1)];
+					nextHeight = INTERPOLATION_CONSTANT * copiedDetailedTerrainHeightmap[i + k][index - m] +
+								 (1 - INTERPOLATION_CONSTANT) * copiedDetailedTerrainHeightmap[i + k][index - (m - 1)];
 					
 					copiedDetailedTerrainHeightmap[i + k][index - m] = nextHeight;
 				}
@@ -168,8 +168,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 				
 				for (int m = 1; m < chunkResolution - 1; m++)
 				{
-					nextHeight = INTERPOLATION_CONSTAINT * copiedDetailedTerrainHeightmap[i + k][index + m] +
-								 (1 - INTERPOLATION_CONSTAINT) * copiedDetailedTerrainHeightmap[i + k][index + (m - 1)];
+					nextHeight = INTERPOLATION_CONSTANT * copiedDetailedTerrainHeightmap[i + k][index + m] +
+								 (1 - INTERPOLATION_CONSTANT) * copiedDetailedTerrainHeightmap[i + k][index + (m - 1)];
 					
 					copiedDetailedTerrainHeightmap[i + k][index + m] = nextHeight;
 				}

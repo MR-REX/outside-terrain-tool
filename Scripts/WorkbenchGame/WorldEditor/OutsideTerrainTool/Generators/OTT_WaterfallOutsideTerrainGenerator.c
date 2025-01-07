@@ -2,7 +2,7 @@
 
 class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 {
-	protected const float INTERPOLATION_CONSTAINT = 0.25;
+	protected const float INTERPOLATION_CONSTANT = 0.25;
 			
 	protected int GetChunkResolution()
 	{
@@ -157,15 +157,15 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			{
 				// North
 				
-				nextHeight = INTERPOLATION_CONSTAINT * terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] +
-							 (1 - INTERPOLATION_CONSTAINT) * terrainHeightmap[terrainHeightmapResolution - chunkResolution + (k - 1)][i];
+				nextHeight = INTERPOLATION_CONSTANT * terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] +
+							 (1 - INTERPOLATION_CONSTANT) * terrainHeightmap[terrainHeightmapResolution - chunkResolution + (k - 1)][i];
 				
 				terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] = nextHeight;
 				
 				// South
 				
-				nextHeight = INTERPOLATION_CONSTAINT * terrainHeightmap[chunkResolution - 1 - k][i] +
-							 (1 - INTERPOLATION_CONSTAINT) * terrainHeightmap[chunkResolution - 1 - (k - 1)][i];
+				nextHeight = INTERPOLATION_CONSTANT * terrainHeightmap[chunkResolution - 1 - k][i] +
+							 (1 - INTERPOLATION_CONSTANT) * terrainHeightmap[chunkResolution - 1 - (k - 1)][i];
 				
 				terrainHeightmap[chunkResolution - 1 - k][i] = nextHeight;
 			}
@@ -295,15 +295,15 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			{
 				// West
 				
-				nextHeight = INTERPOLATION_CONSTAINT * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] +
-							 (1 - INTERPOLATION_CONSTAINT) * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + (k - 1)];
+				nextHeight = INTERPOLATION_CONSTANT * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] +
+							 (1 - INTERPOLATION_CONSTANT) * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + (k - 1)];
 				
 				terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] = nextHeight;
 				
 				// East
 				
-				nextHeight = INTERPOLATION_CONSTAINT * terrainHeightmap[i][chunkResolution - 1 - k] +
-							 (1 - INTERPOLATION_CONSTAINT) * terrainHeightmap[i][chunkResolution - 1 - (k - 1)];
+				nextHeight = INTERPOLATION_CONSTANT * terrainHeightmap[i][chunkResolution - 1 - k] +
+							 (1 - INTERPOLATION_CONSTANT) * terrainHeightmap[i][chunkResolution - 1 - (k - 1)];
 				
 				terrainHeightmap[i][chunkResolution - 1 - k] = nextHeight;
 			}
@@ -416,15 +416,15 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			{
 				// From +X
 				
-				nextHeight = INTERPOLATION_CONSTAINT * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] +
-							 (1 - INTERPOLATION_CONSTAINT) * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + (k - 1)];
+				nextHeight = INTERPOLATION_CONSTANT * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] +
+							 (1 - INTERPOLATION_CONSTANT) * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + (k - 1)];
 				
 				terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] = nextHeight;
 				
 				// From -Z
 				
-				nextHeight = INTERPOLATION_CONSTAINT * terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] +
-							 (1 - INTERPOLATION_CONSTAINT) * terrainHeightmap[terrainHeightmapResolution - chunkResolution + (k - 1)][i];
+				nextHeight = INTERPOLATION_CONSTANT * terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] +
+							 (1 - INTERPOLATION_CONSTANT) * terrainHeightmap[terrainHeightmapResolution - chunkResolution + (k - 1)][i];
 				
 				terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] = nextHeight;
 			}
@@ -496,15 +496,15 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			{
 				// From -X
 				
-				nextHeight = INTERPOLATION_CONSTAINT * terrainHeightmap[i][chunkResolution - 1 - k] +
-							 (1 - INTERPOLATION_CONSTAINT) * terrainHeightmap[i][chunkResolution - 1 - (k - 1)];
+				nextHeight = INTERPOLATION_CONSTANT * terrainHeightmap[i][chunkResolution - 1 - k] +
+							 (1 - INTERPOLATION_CONSTANT) * terrainHeightmap[i][chunkResolution - 1 - (k - 1)];
 				
 				terrainHeightmap[i][chunkResolution - 1 - k] = nextHeight;
 				
 				// From -Z
 				
-				nextHeight = INTERPOLATION_CONSTAINT * terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] +
-							 (1 - INTERPOLATION_CONSTAINT) * terrainHeightmap[terrainHeightmapResolution - chunkResolution + (k - 1)][i];
+				nextHeight = INTERPOLATION_CONSTANT * terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] +
+							 (1 - INTERPOLATION_CONSTANT) * terrainHeightmap[terrainHeightmapResolution - chunkResolution + (k - 1)][i];
 				
 				terrainHeightmap[terrainHeightmapResolution - chunkResolution + k][i] = nextHeight;
 			}
@@ -576,15 +576,15 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			{
 				// From +X
 				
-				nextHeight = INTERPOLATION_CONSTAINT * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] +
-							 (1 - INTERPOLATION_CONSTAINT) * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + (k - 1)];
+				nextHeight = INTERPOLATION_CONSTANT * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] +
+							 (1 - INTERPOLATION_CONSTANT) * terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + (k - 1)];
 				
 				terrainHeightmap[i][terrainHeightmapResolution - chunkResolution + k] = nextHeight;
 				
 				// From +Z
 				
-				nextHeight = INTERPOLATION_CONSTAINT * terrainHeightmap[chunkResolution - 1 - k][i] +
-							 (1 - INTERPOLATION_CONSTAINT) * terrainHeightmap[chunkResolution - 1 - (k - 1)][i];
+				nextHeight = INTERPOLATION_CONSTANT * terrainHeightmap[chunkResolution - 1 - k][i] +
+							 (1 - INTERPOLATION_CONSTANT) * terrainHeightmap[chunkResolution - 1 - (k - 1)][i];
 				
 				terrainHeightmap[chunkResolution - 1 - k][i] = nextHeight;
 			}
@@ -656,15 +656,15 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			{
 				// From -X
 				
-				nextHeight = INTERPOLATION_CONSTAINT * terrainHeightmap[i][chunkResolution - 1 - k] +
-							 (1 - INTERPOLATION_CONSTAINT) * terrainHeightmap[i][chunkResolution - 1 - (k - 1)];
+				nextHeight = INTERPOLATION_CONSTANT * terrainHeightmap[i][chunkResolution - 1 - k] +
+							 (1 - INTERPOLATION_CONSTANT) * terrainHeightmap[i][chunkResolution - 1 - (k - 1)];
 				
 				terrainHeightmap[i][chunkResolution - 1 - k] = nextHeight;
 				
 				// From +Z
 				
-				nextHeight = INTERPOLATION_CONSTAINT * terrainHeightmap[chunkResolution - 1 - k][i] +
-							 (1 - INTERPOLATION_CONSTAINT) * terrainHeightmap[chunkResolution - 1 - (k - 1)][i];
+				nextHeight = INTERPOLATION_CONSTANT * terrainHeightmap[chunkResolution - 1 - k][i] +
+							 (1 - INTERPOLATION_CONSTANT) * terrainHeightmap[chunkResolution - 1 - (k - 1)][i];
 				
 				terrainHeightmap[chunkResolution - 1 - k][i] = nextHeight;
 			}
