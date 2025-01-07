@@ -33,12 +33,13 @@ class OTT_OutsideTerrainManager
 			return;
 		}
 		
-		m_iLayerID = m_WorldEditorAPI.CreateSubsceneLayer(subsceneId, layerName);
+		string createdLayerName = m_WorldEditorAPI.CreateSubsceneLayer(subsceneId, layerName);
+		m_iLayerID = m_WorldEditorAPI.GetSubsceneLayerId(subsceneId, createdLayerName);
 	}
 	
 	bool IsValid()
 	{
-		return m_iLayerID != -1;
+		return m_iLayerID > 0;
 	}
 	
 	OTT_OutsideTerrainChunkOptions GetChunkOptions()
