@@ -358,7 +358,9 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 				
 				CreateChunk(position, vector.Zero, subdividedChunkSize, chunkHeightmap, enablePhysics);
 			}
-		}		
+		}
+		
+		m_Manager.SetProcessProgress(1 / 8);
 		
 		// Creating plane of chunks at south side
 		
@@ -409,6 +411,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 				CreateChunk(position, vector.Zero, subdividedChunkSize, chunkHeightmap, enablePhysics);
 			}
 		}
+		
+		m_Manager.SetProcessProgress(2 / 8);
 		
 		// Creating plane of chunks at west side
 		
@@ -464,6 +468,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 			}
 		}
 		
+		m_Manager.SetProcessProgress(3 / 8);
+		
 		// Creating plane of chunks at east side
 		
 		m_Manager.SetChunksPrefix("East");
@@ -514,6 +520,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 			}
 		}
 		
+		m_Manager.SetProcessProgress(4 / 8);
+		
 		// Creating plane of chunks at north-west side
 		
 		m_Manager.SetChunksPrefix("NorthWest");
@@ -548,6 +556,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 			}
 		}
 		
+		m_Manager.SetProcessProgress(5 / 8);
+		
 		// Creating plane of chunks at north-east side
 		
 		m_Manager.SetChunksPrefix("NorthEast");
@@ -580,6 +590,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 				}
 			}
 		}
+		
+		m_Manager.SetProcessProgress(6 / 8);
 		
 		// Creating plane of chunks at south-west side
 		
@@ -614,6 +626,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 			}
 		}
 		
+		m_Manager.SetProcessProgress(7 / 8);
+		
 		// Creating plane of chunks at south-east side
 		
 		m_Manager.SetChunksPrefix("SouthEast");
@@ -646,6 +660,8 @@ class OTT_SubdividedOutsideTerrainGenerator : OTT_SimpleOutsideTerrainGenerator
 				}
 			}
 		}
+		
+		m_Manager.SetProcessProgress(8 / 8);
 		
 		return true;
 	}

@@ -125,6 +125,8 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			);
 		}
 		
+		m_Manager.SetProcessProgress(1 / 8);
+		
 		// Create plane at South
 		
 		m_Manager.SetChunksPrefix("South");
@@ -148,6 +150,8 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				enablePhysics: shouldEnablePhysics
 			);
 		}
+		
+		m_Manager.SetProcessProgress(2 / 8);
 		
 		// Create plane at West
 		
@@ -173,6 +177,8 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			);
 		}
 		
+		m_Manager.SetProcessProgress(3 / 8);
+		
 		// Create plane at East
 		
 		m_Manager.SetChunksPrefix("East");
@@ -196,6 +202,8 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				enablePhysics: shouldEnablePhysics
 			);
 		}
+		
+		m_Manager.SetProcessProgress(4 / 8);
 		
 		// Create plane at North-West
 		
@@ -222,6 +230,8 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			);
 		}
 		
+		m_Manager.SetProcessProgress(5 / 8);
+		
 		// Create plane at North-East
 		
 		m_Manager.SetChunksPrefix("NorthEast");
@@ -246,6 +256,8 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				enablePhysics: shouldEnablePhysics
 			);
 		}
+		
+		m_Manager.SetProcessProgress(6 / 8);
 		
 		// Create plane at South-West
 		
@@ -272,6 +284,8 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			);
 		}
 		
+		m_Manager.SetProcessProgress(7 / 8);
+		
 		// Create plane at South-East
 		
 		m_Manager.SetChunksPrefix("SouthEast");
@@ -296,6 +310,8 @@ class OTT_FlatOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				enablePhysics: shouldEnablePhysics
 			);
 		}
+		
+		m_Manager.SetProcessProgress(8 / 8);
 		
 		return true;
 	}

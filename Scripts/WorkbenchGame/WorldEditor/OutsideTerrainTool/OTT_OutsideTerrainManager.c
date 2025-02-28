@@ -10,6 +10,8 @@ class OTT_OutsideTerrainManager
 	protected int m_iLayerID;
 	protected string m_sChunksPrefix;
 	
+	protected WBProgressDialog m_ProgressDialog;
+	
 	void OTT_OutsideTerrainManager(WorldEditorAPI worldEditorAPI, OTT_OutsideTerrainChunkOptions chunkOptions)
 	{
 		m_WorldEditorAPI = worldEditorAPI;
@@ -50,6 +52,20 @@ class OTT_OutsideTerrainManager
 	void SetChunksPrefix(string chunksPrefix)
 	{
 		m_sChunksPrefix = chunksPrefix;
+	}
+	
+	void SetProgressDialog(WBProgressDialog progressDialog)
+	{
+		m_ProgressDialog = progressDialog;
+	}
+	
+	void SetProcessProgress(float progress)
+	{
+		if (!m_ProgressDialog)
+			return;
+		
+		progress = Math.Clamp(progress, 0, 1);
+		m_ProgressDialog.SetProgress(progress);
 	}
 	
 	IEntitySource CreateChunk(int id, vector position, vector angles, vector size, notnull array<ref array<float>> heightmap, bool enablePhysics)
