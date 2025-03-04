@@ -2,11 +2,21 @@
 
 class OTT_Terrain
 {
+	private static const float MIN_UNIT_SCALE = 0.001;
+	
 	protected BaseWorld m_World;
 	
 	protected vector m_vMins;
 	protected vector m_vMaxs;
 	protected vector m_vSize;
+	
+	protected int m_iHeightmapWidth;
+	protected int m_iHeightmapHeight;
+	
+	protected int m_iTilesPerWidth;
+	protected int m_iTilesPerHeight;
+	
+	protected float m_fUnitScale;
 	
 	void OTT_Terrain()
 	{
@@ -24,6 +34,14 @@ class OTT_Terrain
 		
 		m_World = worldEditorApi.GetWorld();	
 		m_vSize = m_vMaxs - m_vMins;
+		
+		m_iHeightmapWidth = worldEditorApi.GetTerrainResolutionX();
+		m_iHeightmapHeight = worldEditorApi.GetTerrainResolutionY();
+		
+		m_iTilesPerWidth = worldEditorApi.GetTerrainTilesX();
+		m_iTilesPerHeight = worldEditorApi.GetTerrainTilesY();
+		
+		m_fUnitScale = worldEditorApi.GetTerrainUnitScale();
 	}
 	
 	bool IsValid()
@@ -52,6 +70,31 @@ class OTT_Terrain
 		return m_vSize;
 	}
 	
+	int GetHeightmapWidth()
+	{
+		return m_iHeightmapWidth;
+	}
+	
+	int GetHeightmapHeight()
+	{
+		return m_iHeightmapHeight;
+	}
+	
+	int GetTilesPerWidth()
+	{
+		return m_iTilesPerWidth;
+	}
+	
+	int GetTilesPerHeight()
+	{
+		return m_iTilesPerHeight;
+	}
+	
+	float GetUnitScale()
+	{
+		return m_fUnitScale;
+	}
+	
 	bool HasOcean()
 	{
 		return m_World.IsOcean();
@@ -72,12 +115,18 @@ class OTT_Terrain
 		return m_World.GetSurfaceY(x, z);
 	}
 	
-	array<ref array<float>> GetHeightmap(int m, int n)
+	array<ref array<float>> GetHeightmap(int m, int n, bool useUnitScale = false)
 	{
 		array<ref array<float>> heightmap = new array<ref array<float>>();
 		
 		float widthStep = m_vSize[0] / n;
 		float heightStep = m_vSize[2] / m;
+		
+		if (useUnitScale)
+		{
+			widthStep = m_fUnitScale;
+			heightStep = m_fUnitScale;
+		}
 		
 		float x, z, height;
 		
@@ -87,8 +136,8 @@ class OTT_Terrain
 			
 			for (int j = 0; j < n; j++)
 			{
-				x = Math.Clamp(widthStep * j, 0.1, m_vSize[0] - 0.1);
-				z = Math.Clamp(heightStep * i, 0.1, m_vSize[2] - 0.1);
+				x = Math.Clamp(widthStep * j, MIN_UNIT_SCALE, m_vSize[0] - MIN_UNIT_SCALE);
+				z = Math.Clamp(heightStep * i, MIN_UNIT_SCALE, m_vSize[2] - MIN_UNIT_SCALE);
 				
 				height = m_World.GetSurfaceY(x, z);
 				row.Insert(height);
