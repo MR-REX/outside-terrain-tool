@@ -395,11 +395,34 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			return;
 		}
 		
+		// Begin measuring time of generation process
+		
+		Debug.BeginTimeMeasure();
+		
+		// Initialize progress dialog
+		
+		WorldEditor worldEditor = Workbench.GetModule(WorldEditor);
+		
+		WBProgressDialog progressDialog = new WBProgressDialog("Generating outside terrain...", worldEditor);
+		progressDialog.SetProgress(0);
+		
+		outsideTerrainManager.SetProgressDialog(progressDialog);
+		
 		// Generating outside terrain with generator
 		
 		m_API.BeginEntityAction();
 		OTT_OutsideTerrainGenerationResult result = generator.Execute();
 		m_API.EndEntityAction();
+		
+		// Generation process is completed, completing the progress dialog
+		// Important: This method allows you to safely set the progress value,
+		//            because it checks the internal progress dialog ref for null
+		
+		outsideTerrainManager.SetProcessProgress(1);
+		
+		// Finishing measuring time of generation process and display measuring result
+		
+		Debug.EndTimeMeasure("Outside terrain generation process");
 		
 		// Processing outside terrain generation results
 		

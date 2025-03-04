@@ -229,6 +229,8 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			}
 		}
 		
+		m_Manager.SetProcessProgress(1 / 8);
+		
 		// Creating chunks for South side
 		
 		m_Manager.SetChunksPrefix("South");
@@ -263,6 +265,8 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				if (i == chunksCount - 1) storedHeightmaps[3] = chunkHeightmap;
 			}
 		}
+		
+		m_Manager.SetProcessProgress(2 / 8);
 		
 		// Restoring, flipping and rotating terrain heightmap
 		
@@ -355,6 +359,8 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			}
 		}
 		
+		m_Manager.SetProcessProgress(3 / 8);
+		
 		// Creating chunks for East side
 		
 		m_Manager.SetChunksPrefix("East");
@@ -389,6 +395,8 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				if (i == chunksCount - 1) storedHeightmaps[7] = chunkHeightmap;
 			}
 		}
+		
+		m_Manager.SetProcessProgress(4 / 8);
 		
 		// Restoring and flipping terrain heightmap
 		
@@ -480,6 +488,8 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			);
 		}
 		
+		m_Manager.SetProcessProgress(5 / 8);
+		
 		// Alignment with planes for North-East chunk
 		
 		for (int i = 0; i < chunkResolution; i++)
@@ -559,6 +569,8 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				enablePhysics: shouldEnablePhysics
 			);
 		}
+		
+		m_Manager.SetProcessProgress(6 / 8);
 		
 		// Alignment with planes for South-West chunk
 		
@@ -640,6 +652,8 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 			);
 		}
 		
+		m_Manager.SetProcessProgress(7 / 8);
+		
 		// Alignment with planes for South-East chunk
 		
 		for (int i = 0; i < chunkResolution; i++)
@@ -719,6 +733,8 @@ class OTT_WaterfallOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 				enablePhysics: shouldEnablePhysics
 			);
 		}
+		
+		m_Manager.SetProcessProgress(8 / 8);
 		
 		return true;
 	}
