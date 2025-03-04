@@ -24,7 +24,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			desc: "Size of outside terrain",
 			uiwidget: UIWidgets.ComboBox,
 			enums: ParamEnumArray.FromEnum(OTT_EOutsideTerrainSize),
-			defvalue: OTT_EOutsideTerrainSize.Medium.ToString()
+			defvalue: OTT_EOutsideTerrainSize.Small.ToString()
 		)
 	]
 	protected OTT_EOutsideTerrainSize m_eOutsideTerrainSize;
