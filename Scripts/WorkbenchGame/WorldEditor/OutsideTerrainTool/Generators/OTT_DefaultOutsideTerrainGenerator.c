@@ -144,6 +144,13 @@ class OTT_DefaultOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 		vector position;
 		bool enablePhysics;
 		
+		// Useful variables for calculating progress
+		
+		float achievedProgress = 0;
+		float progressPerSide = 1 / 8;
+		
+		float nextProgress;
+		
 		// Creating plane of chunks at north side
 		
 		m_Manager.SetChunksPrefix("North");
@@ -177,8 +184,17 @@ class OTT_DefaultOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 				}
+				
+				// Update generation progress
+				
+				nextProgress = achievedProgress + progressPerSide * (z / (chunksDepthZ - 1));
+				m_Manager.SetProcessProgress(nextProgress);
 			}
 		}
+		
+		// Update general generation progress
+		
+		achievedProgress += progressPerSide;
 		
 		// Creating plane of chunks at south side
 		
@@ -213,8 +229,17 @@ class OTT_DefaultOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 				}
+				
+				// Update generation progress
+				
+				nextProgress = achievedProgress + progressPerSide * (z / (chunksDepthZ - 1));
+				m_Manager.SetProcessProgress(nextProgress);
 			}
 		}
+		
+		// Update general generation progress
+		
+		achievedProgress += progressPerSide;
 		
 		// Creating plane of chunks at west side
 		
@@ -250,8 +275,17 @@ class OTT_DefaultOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 				}
+				
+				// Update generation progress
+				
+				nextProgress = achievedProgress + progressPerSide * (z / (chunksPerHeight - 1));
+				m_Manager.SetProcessProgress(nextProgress);
 			}
 		}
+		
+		// Update general generation progress
+		
+		achievedProgress += progressPerSide;
 		
 		// Creating plane of chunks at east side
 		
@@ -286,8 +320,17 @@ class OTT_DefaultOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 				}
+				
+				// Update generation progress
+				
+				nextProgress = achievedProgress + progressPerSide * (z / (chunksPerHeight - 1));
+				m_Manager.SetProcessProgress(nextProgress);
 			}
 		}
+		
+		// Update general generation progress
+		
+		achievedProgress += progressPerSide;
 		
 		// Creating plane of chunks at north-west side
 		
@@ -320,8 +363,17 @@ class OTT_DefaultOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 				}
+				
+				// Update generation progress
+				
+				nextProgress = achievedProgress + progressPerSide * (z / (chunksDepthZ - 1));
+				m_Manager.SetProcessProgress(nextProgress);
 			}
 		}
+		
+		// Update general generation progress
+		
+		achievedProgress += progressPerSide;
 		
 		// Creating plane of chunks at north-east side
 		
@@ -353,8 +405,17 @@ class OTT_DefaultOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 				}
+				
+				// Update generation progress
+				
+				nextProgress = achievedProgress + progressPerSide * (z / (chunksDepthZ - 1));
+				m_Manager.SetProcessProgress(nextProgress);
 			}
 		}
+		
+		// Update general generation progress
+		
+		achievedProgress += progressPerSide;
 		
 		// Creating plane of chunks at south-west side
 		
@@ -386,8 +447,17 @@ class OTT_DefaultOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 				}
+				
+				// Update generation progress
+				
+				nextProgress = achievedProgress + progressPerSide * (z / (chunksDepthZ - 1));
+				m_Manager.SetProcessProgress(nextProgress);
 			}
 		}
+		
+		// Update general generation progress
+		
+		achievedProgress += progressPerSide;
 		
 		// Creating plane of chunks at south-east side
 		
@@ -419,6 +489,11 @@ class OTT_DefaultOutsideTerrainGenerator : OTT_OutsideTerrainGenerator
 					
 					CreateChunk(position, vector.Zero, chunkSize, chunkHeightmap, enablePhysics);
 				}
+				
+				// Update generation progress
+				
+				nextProgress = achievedProgress + progressPerSide * (z / (chunksDepthZ - 1));
+				m_Manager.SetProcessProgress(nextProgress);
 			}
 		}
 		
