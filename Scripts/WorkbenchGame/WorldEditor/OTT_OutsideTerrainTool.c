@@ -12,7 +12,7 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 			desc: "Outside terrain generation type",
 			uiwidget: UIWidgets.ComboBox,
 			enums: ParamEnumArray.FromEnum(OTT_EOutsideTerrainGeneratorTypes),
-			defvalue: OTT_EOutsideTerrainGeneratorTypes.Subdivided.ToString()
+			defvalue: OTT_EOutsideTerrainGeneratorTypes.Default.ToString()
 		)
 	]
 	protected OTT_EOutsideTerrainGeneratorTypes m_eOutsideTerrainGeneratorType;
@@ -40,6 +40,32 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		)
 	]
 	protected OTT_EOutsideTerrainQuality m_eOutsideTerrainQuality;
+	
+	// Category: Terrain
+	
+	[
+		Attribute
+		(
+			category: "Terrain",
+			desc: "Number of blocks in a tile by width",
+			uiwidget: UIWidgets.Range,
+			params: "1 128 1",
+			defvalue: "4"
+		)
+	]
+	protected int m_iBlocksPerTileWidth;
+	
+	[
+		Attribute
+		(
+			category: "Terrain",
+			desc: "Number of blocks in a tile by height",
+			uiwidget: UIWidgets.Range,
+			params: "1 128 1",
+			defvalue: "4"
+		)
+	]
+	protected int m_iBlocksPerTileHeight;
 	
 	// Category: Physics
 	
@@ -376,6 +402,8 @@ class OTT_OutsideTerrainTool : WorldEditorTool
 		OTT_OutsideTerrainGeneratorOptions generatorOptions = new OTT_OutsideTerrainGeneratorOptions(
 			size: m_eOutsideTerrainSize,
 			quality: m_eOutsideTerrainQuality,
+			blocksPerTileWidth: m_iBlocksPerTileWidth,
+			blocksPerTileHeight: m_iBlocksPerTileHeight,
 			physicsType: m_ePhysicsType,
 			modifiers: heightmapModifiers,
 			contextOptions: contextOptions,

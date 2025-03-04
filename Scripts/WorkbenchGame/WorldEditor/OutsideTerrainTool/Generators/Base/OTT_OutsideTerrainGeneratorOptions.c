@@ -32,6 +32,9 @@ class OTT_OutsideTerrainGeneratorOptions
 	protected OTT_EOutsideTerrainQuality m_eQuality;
 	protected OTT_EOutsideTerrainPhysicsType m_ePhysicsType;
 	
+	protected int m_iBlocksPerTileWidth;
+	protected int m_iBlocksPerTileHeight;
+	
 	protected ref array<ref OTT_HeightmapModifier> m_aHeightmapModifiers;
 	protected OTT_OutsideTerrainContextOptions m_contextOptions;
 	
@@ -41,6 +44,8 @@ class OTT_OutsideTerrainGeneratorOptions
 	void OTT_OutsideTerrainGeneratorOptions(
 		OTT_EOutsideTerrainSize size,
 		OTT_EOutsideTerrainQuality quality,
+		int blocksPerTileWidth,
+		int blocksPerTileHeight,
 		OTT_EOutsideTerrainPhysicsType physicsType,
 		notnull array<ref OTT_HeightmapModifier> modifiers,
 		OTT_OutsideTerrainContextOptions contextOptions,
@@ -51,6 +56,9 @@ class OTT_OutsideTerrainGeneratorOptions
 		m_eSize = size;
 		m_eQuality = quality;
 		m_ePhysicsType = physicsType;
+		
+		m_iBlocksPerTileWidth = blocksPerTileWidth;
+		m_iBlocksPerTileHeight = blocksPerTileHeight;
 		
 		m_aHeightmapModifiers = modifiers;
 		m_contextOptions = contextOptions;
@@ -67,6 +75,16 @@ class OTT_OutsideTerrainGeneratorOptions
 	OTT_EOutsideTerrainQuality GetQuality()
 	{
 		return m_eQuality;
+	}
+	
+	int GetBlocksPerTileWidth()
+	{
+		return m_iBlocksPerTileWidth;
+	}
+	
+	int GetBlocksPerTileHeight()
+	{
+		return m_iBlocksPerTileHeight;
 	}
 	
 	OTT_EOutsideTerrainPhysicsType GetPhysicsType()
