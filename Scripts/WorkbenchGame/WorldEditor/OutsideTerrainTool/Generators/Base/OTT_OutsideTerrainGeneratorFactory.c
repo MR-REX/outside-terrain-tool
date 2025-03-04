@@ -2,6 +2,7 @@
 
 enum OTT_EOutsideTerrainGeneratorTypes
 {
+	Default,
 	Simple,
 	Subdivided,
 	Waterfall,
@@ -14,6 +15,8 @@ class OTT_OutsideTerrainGeneratorFactory
 	{
 		switch(type)
 		{
+			case OTT_EOutsideTerrainGeneratorTypes.Default:
+				return new OTT_DefaultOutsideTerrainGenerator(options, manager);
 			case OTT_EOutsideTerrainGeneratorTypes.Simple:
 				return new OTT_SimpleOutsideTerrainGenerator(options, manager);
 			case OTT_EOutsideTerrainGeneratorTypes.Subdivided:
